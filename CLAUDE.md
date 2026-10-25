@@ -32,6 +32,13 @@ The app has more than 5 pages, so components live next to the page that uses the
 - If a global component ends up used by only one page, move it into that page's `_components/` folder.
 - When adding or removing a usage of a component, check whether it now belongs in a different location and move it, updating imports.
 
+## Content, i18n and theming
+
+- No hard-coded user-facing text in components. Every string (copy, labels, placeholders, `aria-label`, `alt`, metadata, validation messages, WhatsApp messages) comes from the global dictionaries in `app/src/content/locales/{en,ar}.json`. Both locales share one type.
+- Build every UI for both LTR (`en`) and RTL (`ar`). Use logical utilities (`ms-`/`me-`, `ps-`/`pe-`, `start-`/`end-`, `text-start`), never physical `left`/`right`/`ml`/`mr`/`pl`/`pr`. Mirror asymmetric layouts, flip directional icons and Motion `x` offsets, open sheets and drawers from the reading side, and drop uppercase and letter-spacing for Arabic. Check every UI change in both directions.
+- Traveler Diaries (blog) posts are Markdown files with frontmatter in `app/src/content/diaries/`.
+- No hard-coded colours. Colours, gradients, shadows and overlays are CSS variable tokens defined only in `app/src/app/globals.css`, and components use semantic Tailwind classes (`bg-primary`, `text-muted-foreground`). No hex, `rgb()`, `oklch()`, named colours or arbitrary colour values (`bg-[#...]`) in components.
+
 ## Working rules
 
 - Before creating a new folder or moving files, state the proposed structure and wait for approval.
