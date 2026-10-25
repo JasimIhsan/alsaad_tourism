@@ -16,6 +16,7 @@ The Next.js app lives in `app/`. All paths below are relative to the repo root. 
 - Use the Next.js App Router with `app/src/` as the source root.
 - Routes and layouts: `app/src/app/` (one folder per route, with `page.tsx` and `layout.tsx` as needed).
 - Reusable UI primitives: `app/src/components/ui/`.
+- Site shell used on every page (header, mobile nav, footer, contact buttons): `app/src/components/layout/`.
 - Page sections (hero, about, projects, contact): `app/src/components/sections/`.
 - Animation wrappers and motion presets: `app/src/components/motion/`.
 - Static content such as project data and copy: `app/src/content/`.

@@ -1,0 +1,315 @@
+{
+  "meta": {
+    "siteName": "Al Saadah Tourism",
+    "titleTemplate": "%s · Al Saadah Tourism",
+    "defaultTitle": "Al Saadah Tourism · Visas, flights and holidays from the UAE",
+    "description": "UAE visas, flight tickets, A2A and B2B visa changes and Dubai holiday packages from Al Saadah Tourism in Sharjah, Dubai and Sajaa.",
+    "services": {
+      "title": "Services",
+      "description": "Flight tickets, UAE tourist visas, A2A and B2B visa changes, global visas and family visas."
+    },
+    "packages": {
+      "title": "Packages",
+      "description": "Dubai city tours, desert safaris, luxury VIP experiences, custom holidays and family packages."
+    },
+    "about": {
+      "title": "About us",
+      "description": "The story, values and accreditations behind Al Saadah Tourism."
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Answers about visa policies, documents, payment methods and cancellations."
+    },
+    "contact": {
+      "title": "Contact & branches",
+      "description": "Find our branches in Sharjah, Dubai, Sajaa and India, or send us an inquiry."
+    },
+    "notFound": {
+      "title": "Page not found"
+    }
+  },
+  "common": {
+    "skipToContent": "Skip to main content",
+    "close": "Close",
+    "openMenu": "Open menu",
+    "menu": "Menu",
+    "viewDetails": "View details",
+    "inquireNow": "Inquire now",
+    "learnMore": "Learn more",
+    "draftNotice": "Draft content, pending client approval."
+  },
+  "nav": {
+    "primaryLabel": "Primary",
+    "home": "Home",
+    "services": "Services",
+    "packages": "Packages",
+    "about": "About",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "allServices": "All services",
+    "allPackages": "All packages",
+    "planJourney": "Plan your journey"
+  },
+  "language": {
+    "switchLabel": "العربية",
+    "switchAria": "Switch to Arabic"
+  },
+  "contactFab": {
+    "groupLabel": "Quick contact",
+    "whatsapp": "Chat on WhatsApp",
+    "call": "Call us",
+    "defaultMessage": "Hello, I'd like to know more about your services."
+  },
+  "footer": {
+    "tagline": "Visas, flights and journeys arranged by people who answer the phone.",
+    "servicesTitle": "Services",
+    "companyTitle": "Company",
+    "officesTitle": "Offices",
+    "contactTitle": "Contact",
+    "legalTitle": "Legal",
+    "socialLabel": "Social media",
+    "accreditationsLabel": "Accreditations",
+    "licence": "DET licence: number to be added",
+    "membership": "Association membership: to be confirmed",
+    "copyright": "© {year} Al Saadah Tourism LLC",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Sharjah · Dubai · Sajaa",
+      "titleStart": "Beyond the ",
+      "titleAccent": "horizon",
+      "titleEnd": ", arranged for you.",
+      "subtitle": "Visas, flights and holidays from the UAE, handled by one team you can reach on WhatsApp at any time.",
+      "primaryCta": "Plan your journey",
+      "secondaryCta": "Explore services",
+      "collageLabel": "Travel highlights",
+      "captionMain": "Dubai skyline",
+      "captionSecondary": "Arabian desert",
+      "badgeOneLabel": "Licensed by",
+      "badgeOneValue": "Dubai DET",
+      "badgeTwoLabel": "Most requested",
+      "badgeTwoValue": "60-day UAE visa"
+    },
+    "selector": {
+      "label": "Quick inquiry",
+      "submit": "Send inquiry"
+    },
+    "highlights": {
+      "eyebrow": "What we do",
+      "title": "Four things we do every day.",
+      "tabsLabel": "Our services",
+      "items": [
+        {
+          "service": "uae-tourist-visa",
+          "title": "UAE visas",
+          "description": "30-day and 60-day tourist visas, applied and tracked by our visa desk."
+        },
+        {
+          "service": "flight-tickets",
+          "title": "Flight tickets",
+          "description": "Fares on any route, explained clearly before you pay."
+        },
+        {
+          "service": "visa-change",
+          "title": "A2A & B2B visa change",
+          "description": "Renew your stay by air or by bus to the Oman border, usually in one day."
+        },
+        {
+          "service": "global-visas",
+          "title": "Global visas",
+          "description": "Schengen, UK, US and Asia visa files prepared and checked."
+        }
+      ]
+    },
+    "packages": {
+      "title": "Holidays for every kind of traveller.",
+      "description": "Each package is a starting point. We adjust it to your dates, your pace and the people you travel with.",
+      "cta": "All packages"
+    },
+    "trust": {
+      "label": "Why travellers choose us",
+      "items": [
+        {
+          "title": "DET licensed",
+          "description": "A registered UAE travel agency."
+        },
+        {
+          "title": "Four branches",
+          "description": "Sharjah, Dubai, Sajaa and India."
+        },
+        {
+          "title": "WhatsApp first",
+          "description": "Quick answers from a real person."
+        },
+        {
+          "title": "One point of contact",
+          "description": "From the first message to your return."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Build a journey that is only yours.",
+      "description": "Tell us what you need. We come back with a plan, a timeline and a price.",
+      "button": "Start my inquiry"
+    }
+  },
+  "servicesPage": {
+    "eyebrow": "Services",
+    "title": "Visas, flights and everything in between.",
+    "description": "Pick a service to see what's included, what you need and how to get started.",
+    "detail": {
+      "eyebrow": "Service",
+      "overview": "Overview",
+      "eligibility": "Who it's for",
+      "documents": "What you'll need",
+      "facts": "At a glance",
+      "price": "Price",
+      "faq": "Common questions",
+      "allFaq": "See all FAQs",
+      "inquiryTitle": "Ask about this service",
+      "inquiryDescription": "Send your details and our team will reply, usually within the same working day.",
+      "others": "Other services"
+    }
+  },
+  "packagesPage": {
+    "eyebrow": "Packages",
+    "title": "Holidays planned around you.",
+    "description": "From a day in Dubai to a trip across the world, every package can be adjusted.",
+    "detail": {
+      "eyebrow": "Package",
+      "overview": "Overview",
+      "inclusions": "What's included",
+      "itinerary": "How it works",
+      "step": "Step {n}",
+      "duration": "Duration",
+      "category": "Type",
+      "price": "Price",
+      "inquiryTitle": "Ask about this package",
+      "inquiryDescription": "Tell us your dates and group size and we'll send a quote.",
+      "others": "More packages"
+    }
+  },
+  "aboutPage": {
+    "eyebrow": "About us",
+    "title": "A travel agency built on answering the phone.",
+    "description": "Al Saadah Tourism helps residents and visitors in the UAE travel with less stress and fewer surprises.",
+    "storyTitle": "Our story",
+    "story": [
+      "Al Saadah Tourism started with a simple idea: travel paperwork should not be the hardest part of a trip.",
+      "Today our team in Sharjah, Dubai, Sajaa and India handles visas, flights and holidays for families, workers, visitors and companies."
+    ],
+    "valuesTitle": "What we stand for",
+    "values": [
+      {
+        "title": "Clarity",
+        "description": "We explain the rules, the documents and the price before you commit."
+      },
+      {
+        "title": "Responsiveness",
+        "description": "A real person replies on WhatsApp, by phone or at the branch."
+      },
+      {
+        "title": "Care",
+        "description": "We treat every application as if it were our own family's trip."
+      }
+    ],
+    "leadershipTitle": "Leadership",
+    "leadershipNote": "Leadership profiles will be added once supplied.",
+    "accreditationsTitle": "Accreditations and partners",
+    "accreditations": [
+      "Dubai Department of Economy and Tourism (DET) licence",
+      "Airline and hotel partner badges to be supplied"
+    ]
+  },
+  "faqPage": {
+    "eyebrow": "FAQ",
+    "title": "Questions travellers ask us.",
+    "description": "Search below, or contact us if you can't find your answer.",
+    "searchLabel": "Search questions",
+    "searchPlaceholder": "Try \"documents\" or \"payment\"",
+    "noResults": "No questions match your search.",
+    "contactPrompt": "Still have a question?",
+    "contactCta": "Contact us"
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "title": "Talk to the branch nearest you.",
+    "description": "Call, message us on WhatsApp, visit a branch or send an inquiry below.",
+    "branchesTitle": "Our branches",
+    "address": "Address",
+    "hours": "Hours",
+    "phone": "Phone",
+    "email": "Email",
+    "showMap": "Show map",
+    "mapTitle": "Map of the {branch} branch",
+    "directions": "Get directions",
+    "formTitle": "Send an inquiry",
+    "formDescription": "Choose a branch and we'll route your message to the right team."
+  },
+  "legal": {
+    "eyebrow": "Legal",
+    "updated": "Last updated {date}",
+    "otherPages": "Other legal pages",
+    "names": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "cookies": "Cookie Notice",
+      "credits": "Photo credits"
+    },
+    "creditLine": "Photo by {author}, {licence}",
+    "viewSource": "View on Wikimedia Commons"
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "This page took a different route.",
+    "description": "The page you're looking for doesn't exist or has moved.",
+    "home": "Back to home",
+    "contact": "Contact us"
+  },
+  "form": {
+    "fields": {
+      "name": { "label": "Full name", "placeholder": "Your name" },
+      "phone": { "label": "Phone or WhatsApp", "placeholder": "+971 50 000 0000" },
+      "email": { "label": "Email", "placeholder": "you@example.com" },
+      "service": { "label": "Service", "placeholder": "Choose a service" },
+      "travelDate": { "label": "Travel date", "placeholder": "Month or dates" },
+      "travellers": { "label": "Travellers", "placeholder": "e.g. 2 adults, 1 child" },
+      "branch": { "label": "Branch", "placeholder": "Any branch" },
+      "message": { "label": "Message", "placeholder": "Tell us what you need" }
+    },
+    "optional": "optional",
+    "generalInquiry": "General inquiry",
+    "submit": "Send inquiry",
+    "submitting": "Sending…",
+    "successTitle": "Thank you, we've received your inquiry.",
+    "successDescription": "Our team will contact you shortly. For a faster reply, message us on WhatsApp.",
+    "sendAnother": "Send another inquiry",
+    "errorGeneric": "Something went wrong. Please try again or message us on WhatsApp.",
+    "errors": {
+      "required": "This field is required.",
+      "phone": "Enter a valid phone number.",
+      "email": "Enter a valid email address."
+    }
+  },
+  "drawer": {
+    "title": "Tell us about your journey",
+    "description": "Share a few details and our team will get back to you."
+  },
+  "images": {
+    "dubaiSkyline": "Dubai skyline with the Burj Khalifa",
+    "dubaiDunes": "Sunset over the sand dunes outside Dubai",
+    "dubaiCreek": "A traditional abra boat crossing Dubai Creek",
+    "duneBashing": "A 4x4 driving over desert dunes at sunset",
+    "burjAlArab": "The Burj Al Arab lit up at night behind palm trees",
+    "maldives": "Overwater villas and a jetty over a turquoise lagoon in the Maldives",
+    "dubaiMarina": "Dubai Marina towers above the water",
+    "emiratesA380": "An Emirates Airbus A380 at the gate in Dubai",
+    "grandMosque": "Palm-lined approach to the Sheikh Zayed Grand Mosque in Abu Dhabi",
+    "hattaMountains": "Sunset over the Hajar mountains at Hatta",
+    "eiffelTower": "The Eiffel Tower and Pont Alexandre III in Paris at night",
+    "burjKhalifaSea": "The Burj Khalifa and Dubai skyline seen from the sea"
+  }
+}

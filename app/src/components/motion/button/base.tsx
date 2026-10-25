@@ -10,7 +10,9 @@ import {
   motion,
   useReducedMotion,
 } from "motion/react";
+import Link from "next/link";
 import {
+  type ComponentProps,
   forwardRef,
   type PointerEvent,
   type ReactNode,
@@ -19,7 +21,15 @@ import {
   useState,
 } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "outline";
+const MotionLink = motion.create(Link);
+
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "ghost"
+  | "outline"
+  | "inverse"
+  | "light";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 export interface ButtonProps extends Omit<
@@ -34,31 +44,33 @@ export interface ButtonProps extends Omit<
   children?: ReactNode;
 }
 
-export interface ButtonLinkProps extends Omit<
-  HTMLMotionProps<"a">,
+export type ButtonLinkProps = Omit<
+  ComponentProps<typeof MotionLink>,
   "children"
-> {
+> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   pressScale?: number;
   children?: ReactNode;
-}
+};
 
 type Ripple = { id: number; x: number; y: number; size: number };
 
 const VARIANT_CLASS: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+  primary: "bg-primary text-primary-foreground hover:bg-primary-hover",
   secondary: "border border-border bg-card text-foreground hover:border-border",
   ghost: "text-muted-foreground hover:text-foreground hover:bg-muted/60",
   outline:
-    "border border-border bg-transparent text-foreground hover:bg-muted/60",
+    "border-[1.5px] border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background",
+  inverse: "bg-inverse text-inverse-foreground hover:bg-inverse-hover",
+  light: "bg-background text-foreground hover:bg-accent",
 };
 
 const SIZE_CLASS: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-xs gap-1.5 rounded-full",
-  md: "h-10 px-5 text-sm gap-2 rounded-full",
-  lg: "h-12 px-6 text-base gap-2 rounded-full",
-  icon: "h-8 w-8 rounded-lg",
+  sm: "h-10 px-4 text-sm gap-1.5 rounded-full",
+  md: "h-12 px-6 text-[0.9375rem] font-semibold gap-2 rounded-full",
+  lg: "h-14 px-7 text-base font-semibold gap-2.5 rounded-full",
+  icon: "size-11 rounded-full",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -169,7 +181,7 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
     const canHover = useHoverCapable();
 
     return (
-      <motion.a
+      <MotionLink
         ref={ref}
         whileTap={reduce ? undefined : { scale: pressScale }}
         whileHover={reduce || !canHover ? undefined : { scale: 1.02 }}
@@ -184,7 +196,7 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
         {...rest}
       >
         {children}
-      </motion.a>
+      </MotionLink>
     );
   },
 );
