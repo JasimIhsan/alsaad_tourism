@@ -85,6 +85,8 @@
   --gradient-cta: linear-gradient(120deg, var(--brand-cherry), var(--brand-cherry-darker));
   --gradient-scrim: linear-gradient(to top, var(--scrim-strong), var(--scrim-soft) 60%);
   --gradient-caption: linear-gradient(to top, var(--scrim-photo), transparent 45%);
+  /* Alpha mask that fades a horizontal track out at both edges (only alpha matters). */
+  --mask-fade-x: linear-gradient(to right, transparent, var(--brand-carbon) 6%, var(--brand-carbon) 94%, transparent);
 
   /* Font stacks switch per locale; next/font variables are set on <html>. */
   --font-body: var(--font-inter), "Helvetica Neue", Arial, system-ui, sans-serif;
@@ -165,6 +167,21 @@
       transform: translateY(-8px);
     }
   }
+
+  /* Infinite marquee: the track holds two identical copies, so shifting by
+     half its width loops seamlessly. RTL tracks overflow to the left. */
+  --animate-marquee: marquee var(--marquee-duration, 60s) linear infinite;
+  --animate-marquee-rtl: marquee-rtl var(--marquee-duration, 60s) linear infinite;
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-rtl {
+    to {
+      transform: translateX(50%);
+    }
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -179,6 +196,7 @@
 @utility bg-gradient-cta { background-image: var(--gradient-cta); }
 @utility bg-gradient-scrim { background-image: var(--gradient-scrim); }
 @utility bg-gradient-caption { background-image: var(--gradient-caption); }
+@utility mask-fade-x { mask-image: var(--mask-fade-x); }
 
 /* Small caps label used for eyebrows, field labels and pills. */
 @utility eyebrow {

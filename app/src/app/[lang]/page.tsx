@@ -4,9 +4,11 @@ import { serviceMeta } from "@/content/data/site";
 import { packageSlugs, serviceSlugs, type ServiceSlug } from "@/content/data/types";
 import { localizedHref } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
+import { FeaturedServices } from "./_components/featured-services";
 import { Highlights } from "./_components/highlights";
 import { Hero } from "./_components/hero";
 import { PackagesBento } from "./_components/packages-bento";
+import { Testimonials } from "./_components/testimonials";
 import { TrustStrip } from "./_components/trust-strip";
 
 export default async function HomePage() {
@@ -31,6 +33,16 @@ export default async function HomePage() {
     };
   });
 
+  const featuredServices = serviceSlugs.map((slug) => ({
+    href: href(`/services/${slug}`),
+    title: content.services[slug].title,
+    summary: content.services[slug].summary,
+    icon: serviceMeta[slug].icon,
+    visual: serviceMeta[slug].visual,
+    photo: serviceMeta[slug].photo,
+    photoAlt: dict.images[serviceMeta[slug].photo],
+  }));
+
   return (
     <>
       <Hero
@@ -41,6 +53,15 @@ export default async function HomePage() {
         servicesHref={href("/services")}
       />
       <TrustStrip label={home.trust.label} items={home.trust.items} />
+      <FeaturedServices
+        eyebrow={home.featuredServices.eyebrow}
+        title={home.featuredServices.title}
+        description={home.featuredServices.description}
+        ctaLabel={home.featuredServices.cta}
+        allHref={href("/services")}
+        learnMore={dict.common.learnMore}
+        items={featuredServices}
+      />
       <PackagesBento
         title={home.packages.title}
         description={home.packages.description}
@@ -56,6 +77,16 @@ export default async function HomePage() {
         tabsLabel={home.highlights.tabsLabel}
         learnMore={dict.common.learnMore}
         items={highlights}
+      />
+      <Testimonials
+        eyebrow={home.testimonials.eyebrow}
+        title={home.testimonials.title}
+        description={home.testimonials.description}
+        listLabel={home.testimonials.listLabel}
+        pauseLabel={home.testimonials.pause}
+        playLabel={home.testimonials.play}
+        ratingLabel={home.testimonials.rating}
+        items={home.testimonials.items}
       />
       <CtaBand title={home.cta.title} description={home.cta.description} buttonLabel={home.cta.button} />
     </>

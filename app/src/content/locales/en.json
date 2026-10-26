@@ -129,6 +129,53 @@
       "description": "Each package is a starting point. We adjust it to your dates, your pace and the people you travel with.",
       "cta": "All packages"
     },
+    "featuredServices": {
+      "eyebrow": "Our services",
+      "title": "Everything your trip needs, in one place.",
+      "description": "From the visa to the boarding pass, one team prepares every document and keeps you updated on WhatsApp.",
+      "cta": "All services"
+    },
+    "testimonials": {
+      "eyebrow": "Traveller stories",
+      "title": "Trusted by travellers across the UAE.",
+      "description": "A few words from families, residents and visitors we have helped on their way.",
+      "listLabel": "Traveller testimonials",
+      "pause": "Pause testimonials",
+      "play": "Play testimonials",
+      "rating": "Rated 5 out of 5",
+      "items": [
+        {
+          "quote": "Our 60-day visas were approved in two days. The team answered every question on WhatsApp, even late at night.",
+          "name": "Fatima R.",
+          "detail": "UAE tourist visa · Sharjah"
+        },
+        {
+          "quote": "I needed a visa change at short notice. They booked the A2A trip and I was back in Dubai the same evening.",
+          "name": "Arjun M.",
+          "detail": "A2A visa change · Dubai"
+        },
+        {
+          "quote": "The desert safari was perfectly organised, from the hotel pickup to the dinner under the stars. The kids loved it.",
+          "name": "Sarah L.",
+          "detail": "Desert safari · Family of four"
+        },
+        {
+          "quote": "They checked my Schengen file line by line before submission. Clear advice, no surprises, visa granted.",
+          "name": "Omar K.",
+          "detail": "Schengen visa · Ajman"
+        },
+        {
+          "quote": "Fair flight prices, explained clearly before I paid. I have booked every trip home with them since.",
+          "name": "Priya S.",
+          "detail": "Flight tickets · Sajaa"
+        },
+        {
+          "quote": "Bringing my family to the UAE felt overwhelming. They handled the residence paperwork step by step.",
+          "name": "Ahmed H.",
+          "detail": "Family residence visa · Sharjah"
+        }
+      ]
+    },
     "trust": {
       "label": "Why travellers choose us",
       "items": [
