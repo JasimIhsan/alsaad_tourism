@@ -25,6 +25,7 @@ export async function SiteFooter({ locale, dict, content }: SiteFooterProps) {
   const companyLinks = [
     { href: href("/about"), label: nav.about },
     { href: href("/packages"), label: nav.packages },
+    { href: href("/diaries"), label: nav.diaries },
     { href: href("/faq"), label: nav.faq },
     { href: href("/contact"), label: nav.contact },
   ];

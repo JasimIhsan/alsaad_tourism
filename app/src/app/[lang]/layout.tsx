@@ -72,6 +72,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         description: content.packages[slug].summary,
       })),
     },
+    { href: href("/diaries"), label: dict.nav.diaries },
     { href: href("/about"), label: dict.nav.about },
     { href: href("/faq"), label: dict.nav.faq },
     { href: href("/contact"), label: dict.nav.contact },

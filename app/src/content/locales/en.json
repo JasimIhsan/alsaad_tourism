@@ -26,6 +26,14 @@
     },
     "notFound": {
       "title": "Page not found"
+    },
+    "diaries": {
+      "title": "Traveler Diaries",
+      "description": "Travelogues from our travellers: day-by-day accounts of desert safaris, city breaks, family trips and journeys abroad."
+    },
+    "diarySubmit": {
+      "title": "Share your story",
+      "description": "Tell other travellers about your trip with Al Saadah Tourism and share your photos."
     }
   },
   "common": {
@@ -48,6 +56,7 @@
     "contact": "Contact",
     "allServices": "All services",
     "allPackages": "All packages",
+    "diaries": "Traveler Diaries",
     "planJourney": "Plan your journey"
   },
   "language": {
@@ -237,6 +246,89 @@
       "inquiryTitle": "Ask about this package",
       "inquiryDescription": "Tell us your dates and group size and we'll send a quote.",
       "others": "More packages"
+    }
+  },
+  "diariesPage": {
+    "eyebrow": "Traveler Diaries",
+    "title": "Stories from the road.",
+    "description": "Travelogues from the travellers we helped: day-by-day accounts of their trips, in their own words, photos and language.",
+    "shareCta": "Share your story",
+    "readingTime": "{time} read",
+    "facts": {
+      "destination": "Destination",
+      "duration": "Trip length",
+      "travelled": "Travelled",
+      "travellers": "Travellers"
+    },
+    "itinerary": {
+      "title": "Day by day",
+      "day": "Day {day}"
+    },
+    "filterLabel": "Filter stories by trip",
+    "all": "All stories",
+    "empty": "No stories for this trip yet.",
+    "rating": "Rated {rating} out of 5",
+    "by": "By {author}",
+    "readStory": "Read story",
+    "story": {
+      "back": "All stories",
+      "gallery": "Photos from the trip",
+      "ctaEyebrow": "Inspired?",
+      "ctaTitle": "Plan your own {service}.",
+      "ctaDescription": "Tell us your dates and we will build the trip around you, just like we did for {author}.",
+      "ctaDetails": "See details",
+      "ctaInquire": "Inquire now",
+      "more": "More stories"
+    },
+    "submit": {
+      "eyebrow": "Traveler Diaries",
+      "title": "Share your story.",
+      "description": "Travelled with us? Write your travelogue: where you went, what each day was like and what you would tell a friend. Any language is welcome.",
+      "fields": {
+        "name": {
+          "label": "Your name",
+          "placeholder": "As you want it shown, e.g. Sarah L."
+        },
+        "trip": {
+          "label": "Your trip",
+          "placeholder": "e.g. Desert safari, September 2026"
+        },
+        "language": {
+          "label": "Story language",
+          "placeholder": "Choose a language"
+        },
+        "rating": {
+          "label": "Your rating",
+          "star": "{rating} out of 5"
+        },
+        "story": {
+          "label": "Your story",
+          "placeholder": "Take us through your trip: the places, the people, the food, and the moments you still think about. Day by day works well.",
+          "hint": "At least {min} characters."
+        },
+        "photos": {
+          "label": "Photos",
+          "choose": "Choose photos from your device",
+          "hint": "Up to {max} photos, JPG, PNG or WEBP, {size} MB each.",
+          "selected": "{count} selected"
+        },
+        "consent": "I agree that Al Saadah Tourism may edit and publish my story, name and photos on its website."
+      },
+      "submit": "Send my story",
+      "submitting": "Sending…",
+      "successTitle": "Thank you for sharing your story.",
+      "successDescription": "Our team will review your story before publishing. We will message you if we have any questions.",
+      "sendAnother": "Share another story",
+      "errorGeneric": "Something went wrong. Please try again or message us on WhatsApp.",
+      "errors": {
+        "required": "This field is required.",
+        "rating": "Choose a rating from 1 to 5.",
+        "storyLength": "Please write at least {min} characters.",
+        "photoCount": "You can add up to {max} photos.",
+        "photoType": "Photos must be JPG, PNG or WEBP.",
+        "photoSize": "Each photo must be {size} MB or smaller.",
+        "consent": "Please agree before sending your story."
+      }
     }
   },
   "aboutPage": {
