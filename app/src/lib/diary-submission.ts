@@ -1,59 +1,90 @@
 "use server";
 
-import { isDiaryLanguage, STORY_MIN_LENGTH } from "./diary-rules";
-
-export type DiaryErrorCode =
-  | "required"
-  | "rating"
-  | "storyLength"
-  | "photoCount"
-  | "photoType"
-  | "photoSize"
-  | "consent";
-export type DiaryField = "name" | "trip" | "language" | "rating" | "story" | "photos" | "consent";
+import { validateDiary, type DiaryFieldErrors } from "./diary-rules";
+import { contextColumns, field, fileIds, recordLead, resolveUploads, screen } from "./leads/record";
 
 export type DiaryState =
   | { status: "idle" }
   | { status: "success" }
-  | { status: "error"; fieldErrors: Partial<Record<DiaryField, DiaryErrorCode>> }
+  | { status: "error"; fieldErrors: DiaryFieldErrors }
+  | { status: "limited" }
   | { status: "failed" };
 
-function field(formData: FormData, name: string): string {
-  const value = formData.get(name);
-  return typeof value === "string" ? value.trim() : "";
+/** Frontmatter skeleton plus the story, ready to paste into content/diaries/<slug>.md. */
+function markdownDraft(values: { name: string; language: string; rating: number; story: string; photos: string[] }) {
+  const today = new Date().toISOString().slice(0, 10);
+  return [
+    "---",
+    'title: ""',
+    "slug: ",
+    `author: ${JSON.stringify(values.name)}`,
+    `lang: ${values.language}`,
+    `date: ${today}`,
+    `rating: ${values.rating}`,
+    "tags: []",
+    "service: ",
+    "cover:",
+    "  src: ",
+    '  alt: ""',
+    "images: []",
+    'excerpt: ""',
+    'destination: ""',
+    "days: ",
+    'travelMonth: ""',
+    'travellers: ""',
+    "itinerary: []",
+    "---",
+    "",
+    values.story,
+    ...(values.photos.length > 0 ? ["", "<!-- Photos (download to /public and add above):", ...values.photos, "-->"] : []),
+  ].join("\n");
 }
 
 /**
- * Validates a Traveler Diaries submission. Returns error *codes*; the form maps
- * them to dictionary strings so no user-facing text lives here.
- * Photos are validated in the browser and not sent with this action: Vercel caps
- * request bodies at 4.5 MB (S4.4 technical note).
- * TODO(epic-4): append a "Diaries" row to Google Sheets (story as Markdown-ready
- * plain text), upload photos straight to Drive with resumable URLs, and email the team.
+ * Validates a Traveler Diaries submission and records it in the "Diaries" tab
+ * (S3.2 / S4.4). Photos were uploaded straight to Drive by the browser; only
+ * their IDs arrive here and are verified before being linked.
  */
 export async function submitDiary(_prev: DiaryState, formData: FormData): Promise<DiaryState> {
-  // Honeypot: real users never fill this hidden field.
-  if (field(formData, "company")) return { status: "success" };
+  const screening = await screen(formData, "diary");
+  if (screening === "spam") return { status: "success" };
+  if (screening === "limited") return { status: "limited" };
+
+  const fieldErrors = validateDiary(formData);
+  if (Object.keys(fieldErrors).length > 0) {
+    return { status: "error", fieldErrors };
+  }
 
   const name = field(formData, "name");
   const trip = field(formData, "trip");
   const language = field(formData, "language");
   const rating = Number(field(formData, "rating"));
   const story = field(formData, "story");
-  const consent = formData.get("consent") === "on";
 
-  const fieldErrors: Partial<Record<DiaryField, DiaryErrorCode>> = {};
-  if (!name) fieldErrors.name = "required";
-  if (!trip) fieldErrors.trip = "required";
-  if (!isDiaryLanguage(language)) fieldErrors.language = "required";
-  if (!Number.isInteger(rating) || rating < 1 || rating > 5) fieldErrors.rating = "rating";
-  if (!story) fieldErrors.story = "required";
-  else if (story.length < STORY_MIN_LENGTH) fieldErrors.story = "storyLength";
-  if (!consent) fieldErrors.consent = "consent";
-
-  if (Object.keys(fieldErrors).length > 0) {
-    return { status: "error", fieldErrors };
+  let photos: string[];
+  try {
+    photos = await resolveUploads("diaryPhoto", fileIds(formData, "photoIds"));
+  } catch (error) {
+    console.error("[diaries] Photo verification failed", error);
+    return { status: "failed" };
   }
 
-  return { status: "success" };
+  const saved = await recordLead({
+    tab: "Diaries",
+    form: "Traveler Diaries",
+    name,
+    columns: {
+      ...contextColumns(formData),
+      Name: name,
+      Trip: trip,
+      Language: language,
+      Rating: String(rating),
+      Story: story,
+      Photos: photos.join("\n"),
+      "Markdown draft": markdownDraft({ name, language, rating, story, photos }),
+      Status: "New",
+    },
+  });
+
+  return saved ? { status: "success" } : { status: "failed" };
 }

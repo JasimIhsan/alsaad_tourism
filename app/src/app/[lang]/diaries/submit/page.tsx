@@ -21,7 +21,12 @@ export default async function DiarySubmitPage() {
       <section className="pb-24">
         <div className="mx-auto w-full max-w-6xl px-6">
           <div className="max-w-3xl rounded-card border border-border p-6 sm:p-10">
-            <SubmissionForm dict={page} optionalLabel={dict.form.optional} languages={languages} />
+            <SubmissionForm
+              dict={page}
+              optionalLabel={dict.form.optional}
+              whatsappLabel={dict.form.whatsappFallback}
+              languages={languages}
+            />
           </div>
         </div>
       </section>

@@ -2,21 +2,35 @@
 
 import { Button } from "@/components/motion/button/base";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
-import { MAX_PHOTOS, PHOTO_MAX_MB, PHOTO_TYPES, STORY_MIN_LENGTH } from "@/lib/diary-rules";
-import { submitDiary, type DiaryErrorCode, type DiaryField, type DiaryState } from "@/lib/diary-submission";
+import { FormFailure } from "@/components/sections/form-failure";
+import { FileDrop, FormField } from "@/components/sections/form-field";
+import {
+  MAX_PHOTOS,
+  PHOTO_MAX_MB,
+  PHOTO_TYPES,
+  STORY_MIN_LENGTH,
+  validateDiary,
+  type DiaryErrorCode,
+  type DiaryField,
+} from "@/lib/diary-rules";
+import { submitDiary, type DiaryState } from "@/lib/diary-submission";
+import { UtmFields } from "@/lib/hooks/use-utm";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { format } from "@/lib/i18n/format";
 import { useLocale } from "@/lib/i18n/locale-provider";
+import { uploadFiles } from "@/lib/upload-client";
+import { checkFiles } from "@/lib/upload-rules";
 import { cn } from "@/lib/utils";
 import { CircleCheck, ImagePlus, Star } from "lucide-react";
-import { useActionState, useId, useState, useTransition, type FormEvent, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { useActionState, useId, useState, useTransition, type FormEvent } from "react";
 
 type SubmissionFormProps = {
   dict: Dictionary["diariesPage"]["submit"];
   optionalLabel: string;
+  whatsappLabel: string;
   /** Story languages with names localised to the site locale. */
   languages: { value: string; label: string }[];
 };
@@ -24,20 +38,27 @@ type SubmissionFormProps = {
 const initialState: DiaryState = { status: "idle" };
 const limits = { min: STORY_MIN_LENGTH, max: MAX_PHOTOS, size: PHOTO_MAX_MB };
 
-function photoError(files: File[]): DiaryErrorCode | undefined {
-  if (files.length > MAX_PHOTOS) return "photoCount";
-  if (files.some((file) => !(PHOTO_TYPES as readonly string[]).includes(file.type))) return "photoType";
-  if (files.some((file) => file.size > PHOTO_MAX_MB * 1024 * 1024)) return "photoSize";
-  return undefined;
-}
-
-/** Strips photos before calling the Server Action; they are checked here (see submitDiary). */
-async function submitWithPhotos(prev: DiaryState, formData: FormData): Promise<DiaryState> {
+/**
+ * Checks everything in the browser first, uploads photos straight to Drive,
+ * then sends the text plus the photo IDs to the Server Action.
+ */
+async function submitWithPhotos(
+  prev: DiaryState,
+  formData: FormData,
+  onUploading: () => void,
+): Promise<DiaryState> {
   const photos = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
-  const error = photoError(photos);
-  if (error) return { status: "error", fieldErrors: { photos: error } };
   formData.delete("photos");
-  formData.set("photoCount", String(photos.length));
+  const fieldErrors = validateDiary(formData);
+  const photoError = checkFiles("diaryPhoto", photos);
+  if (photoError) fieldErrors.photos = photoError;
+  if (Object.keys(fieldErrors).length > 0) return { status: "error", fieldErrors };
+
+  if (photos.length > 0) onUploading();
+  const upload = await uploadFiles("diaryPhoto", photos);
+  if (upload.status !== "ok") return { status: upload.status };
+  formData.set("photoIds", JSON.stringify(upload.ids));
+
   try {
     return await submitDiary(prev, formData);
   } catch {
@@ -54,12 +75,19 @@ export function SubmissionForm(props: SubmissionFormProps) {
 function SubmissionFormInner({
   dict,
   optionalLabel,
+  whatsappLabel,
   languages,
   onReset,
 }: SubmissionFormProps & { onReset: () => void }) {
-  const [state, formAction, pending] = useActionState(submitWithPhotos, initialState);
+  const [uploading, setUploading] = useState(false);
+  const [state, formAction, pending] = useActionState(async (prev: DiaryState, formData: FormData) => {
+    const next = await submitWithPhotos(prev, formData, () => setUploading(true));
+    setUploading(false);
+    return next;
+  }, initialState);
   const [, startTransition] = useTransition();
   const { locale } = useLocale();
+  const pathname = usePathname();
   const [rating, setRating] = useState(0);
   const [photoCount, setPhotoCount] = useState(0);
   // undefined = not re-checked since the last submit; null = the current selection is valid.
@@ -99,7 +127,7 @@ function SubmissionFormInner({
   return (
     <form onSubmit={onSubmit} noValidate className="relative grid gap-6">
       <div className="grid gap-6 sm:grid-cols-2">
-        <Field
+        <FormField
           label={f.name.label}
           error={errorText("name")}
           render={(id, describedBy) => (
@@ -114,7 +142,7 @@ function SubmissionFormInner({
             />
           )}
         />
-        <Field
+        <FormField
           label={f.trip.label}
           error={errorText("trip")}
           render={(id, describedBy) => (
@@ -131,7 +159,7 @@ function SubmissionFormInner({
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
-        <Field
+        <FormField
           label={f.language.label}
           error={errorText("language")}
           render={(id, describedBy) => (
@@ -161,7 +189,7 @@ function SubmissionFormInner({
         />
       </div>
 
-      <Field
+      <FormField
         label={f.story.label}
         hint={format(f.story.hint, limits)}
         error={errorText("story")}
@@ -179,38 +207,26 @@ function SubmissionFormInner({
         )}
       />
 
-      <Field
+      <FormField
         label={f.photos.label}
         optionalLabel={optionalLabel}
         hint={format(f.photos.hint, limits)}
         error={errorText("photos")}
         render={(id, describedBy) => (
-          <label
-            className={cn(
-              "flex min-h-24 cursor-pointer items-center gap-4 rounded-xl border border-dashed border-input px-5 py-4 transition-colors focus-within:border-ring hover:bg-accent",
-              errorText("photos") && "border-destructive",
-            )}
-          >
-            <ImagePlus aria-hidden="true" className="size-6 shrink-0 text-primary" />
-            <span className="text-sm text-muted-foreground">
-              {photoCount > 0 ? format(f.photos.selected, { count: photoCount }) : f.photos.choose}
-            </span>
-            <input
-              id={id}
-              name="photos"
-              type="file"
-              multiple
-              accept={PHOTO_TYPES.join(",")}
-              aria-describedby={describedBy}
-              aria-invalid={Boolean(errorText("photos")) || undefined}
-              onChange={(event) => {
-                const files = Array.from(event.target.files ?? []);
-                setPhotoCount(files.length);
-                setPhotoChangeError(photoError(files) ?? null);
-              }}
-              className="sr-only"
-            />
-          </label>
+          <FileDrop
+            id={id}
+            name="photos"
+            multiple
+            accept={PHOTO_TYPES}
+            text={photoCount > 0 ? format(f.photos.selected, { count: photoCount }) : f.photos.choose}
+            describedBy={describedBy}
+            invalid={Boolean(errorText("photos"))}
+            icon={<ImagePlus aria-hidden="true" className="size-6 shrink-0 text-primary" />}
+            onFiles={(files) => {
+              setPhotoCount(files.length);
+              setPhotoChangeError(checkFiles("diaryPhoto", files) ?? null);
+            }}
+          />
         )}
       />
 
@@ -233,14 +249,17 @@ function SubmissionFormInner({
       </div>
 
       <input type="hidden" name="locale" value={locale} />
+      <input type="hidden" name="source" value={pathname} />
+      <UtmFields />
       {/* Honeypot, hidden from people and assistive tech. */}
       <div aria-hidden="true" className="absolute -start-[9999px] size-px overflow-hidden">
         <input type="text" name="company" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <p role="alert" className={cn("text-sm text-destructive", state.status !== "failed" && "sr-only")}>
-        {state.status === "failed" ? dict.errorGeneric : ""}
-      </p>
+      <FormFailure
+        status={state.status === "failed" || state.status === "limited" ? state.status : null}
+        messages={{ failed: dict.errorGeneric, limited: dict.errorLimited, whatsapp: whatsappLabel }}
+      />
 
       <Button
         type="submit"
@@ -250,7 +269,7 @@ function SubmissionFormInner({
         aria-disabled={pending}
         className="w-full sm:w-auto sm:justify-self-start"
       >
-        {pending ? dict.submitting : dict.submit}
+        {uploading ? dict.uploading : pending ? dict.submitting : dict.submit}
       </Button>
     </form>
   );
@@ -258,44 +277,6 @@ function SubmissionFormInner({
 
 const fieldBox = "h-12 rounded-xl px-3.5 text-base";
 const selectBox = "[&_select]:h-12 [&_select]:rounded-xl [&_select]:ps-3.5 [&_select]:text-base";
-
-function Field({
-  label,
-  optionalLabel,
-  hint,
-  error,
-  render,
-}: {
-  label: string;
-  optionalLabel?: string;
-  hint?: string;
-  error?: string;
-  render: (id: string, describedBy: string | undefined) => ReactNode;
-}) {
-  const id = useId();
-  const hintId = `${id}-hint`;
-  const errorId = `${id}-error`;
-  const describedBy = [hint ? hintId : null, error ? errorId : null].filter(Boolean).join(" ") || undefined;
-  return (
-    <div className="grid min-w-0 gap-1.5">
-      <Label htmlFor={id} className="text-sm font-semibold">
-        {label}
-        {optionalLabel ? <span className="font-normal text-muted-foreground">({optionalLabel})</span> : null}
-      </Label>
-      {render(id, describedBy)}
-      {hint ? (
-        <p id={hintId} className="text-sm text-muted-foreground">
-          {hint}
-        </p>
-      ) : null}
-      {error ? (
-        <p id={errorId} className="text-sm text-destructive">
-          {error}
-        </p>
-      ) : null}
-    </div>
-  );
-}
 
 /** Five native radios styled as stars, so arrow keys and screen readers work as usual. */
 function RatingField({

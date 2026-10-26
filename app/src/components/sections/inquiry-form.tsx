@@ -5,13 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
+import { UtmFields } from "@/lib/hooks/use-utm";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { submitInquiry, type InquiryField, type InquiryState } from "@/lib/inquiry";
 import { cn } from "@/lib/utils";
 import { CircleCheck } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useActionState, useId, useState, type ReactNode } from "react";
+import { useActionState, useId, useState, useTransition, type FormEvent, type ReactNode } from "react";
+import { FormFailure } from "./form-failure";
 
 export type Option = { value: string; label: string };
 
@@ -54,9 +56,19 @@ function InquiryFormInner({
   onReset,
 }: InquiryFormProps & { onReset: () => void }) {
   const [state, formAction, pending] = useActionState(submitInquiry, initialState);
+  const [, startTransition] = useTransition();
   const { locale } = useLocale();
   const pathname = usePathname();
   const compact = variant === "compact";
+
+  // Submitting through a transition (not <form action>) keeps the fields filled when validation fails.
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => formAction(formData));
+  };
+  const failure = state.status === "failed" || state.status === "limited" ? state.status : null;
+  const failureMessages = { failed: dict.errorGeneric, limited: dict.errorLimited, whatsapp: dict.whatsappFallback };
 
   if (state.status === "success") {
     return (
@@ -173,6 +185,7 @@ function InquiryFormInner({
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="source" value={pathname} />
       {subject ? <input type="hidden" name="subject" value={subject} /> : null}
+      <UtmFields />
       {/* Honeypot, hidden from people and assistive tech. */}
       <div aria-hidden="true" className="absolute -start-[9999px] size-px overflow-hidden">
         <input type="text" name="company" tabIndex={-1} autoComplete="off" />
@@ -194,25 +207,25 @@ function InquiryFormInner({
   );
 
   if (compact) {
+    // The failure box sits under the pill so the pill keeps its shape.
     return (
-      <form
-        action={formAction}
-        noValidate
-        className={cn(
-          "relative grid grid-cols-1 gap-4 rounded-card border border-border bg-card p-5 shadow-search sm:grid-cols-2 md:grid-cols-[1.2fr_1fr_1fr_1fr_auto] md:items-center md:gap-0 md:rounded-full md:py-2 md:ps-7 md:pe-2",
-          className,
-        )}
-      >
-        {[serviceField, nameField, phoneField, travelDateField]}
-        <div className="sm:col-span-2 md:col-span-1 md:ps-3">{submit}</div>
-        {hidden}
-        <FormStatus failed={state.status === "failed"} message={dict.errorGeneric} />
-      </form>
+      <div className={cn("grid gap-3", className)}>
+        <form
+          onSubmit={onSubmit}
+          noValidate
+          className="relative grid grid-cols-1 gap-4 rounded-card border border-border bg-card p-5 shadow-search sm:grid-cols-2 md:grid-cols-[1.2fr_1fr_1fr_1fr_auto] md:items-center md:gap-0 md:rounded-full md:py-2 md:ps-7 md:pe-2"
+        >
+          {[serviceField, nameField, phoneField, travelDateField]}
+          <div className="sm:col-span-2 md:col-span-1 md:ps-3">{submit}</div>
+          {hidden}
+        </form>
+        <FormFailure status={failure} messages={failureMessages} />
+      </div>
     );
   }
 
   return (
-    <form action={formAction} noValidate className={cn("relative grid gap-4", className)}>
+    <form onSubmit={onSubmit} noValidate className={cn("relative grid gap-4", className)}>
       {nameField}
       {phoneField}
       <Field
@@ -278,7 +291,7 @@ function InquiryFormInner({
         )}
       />
       {hidden}
-      <FormStatus failed={state.status === "failed"} message={dict.errorGeneric} />
+      <FormFailure status={failure} messages={failureMessages} />
       {submit}
     </form>
   );
@@ -330,13 +343,5 @@ function Field({
         </p>
       ) : null}
     </div>
-  );
-}
-
-function FormStatus({ failed, message }: { failed: boolean; message: string }) {
-  return (
-    <p role="alert" className={cn("text-sm text-destructive", !failed && "sr-only")}>
-      {failed ? message : ""}
-    </p>
   );
 }

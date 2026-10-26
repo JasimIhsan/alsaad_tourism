@@ -1,5 +1,9 @@
 "use server";
 
+import { serviceSlugs, type ServiceSlug } from "@/content/data/types";
+import type { InquiryTab } from "./leads/columns";
+import { contextColumns, field, recordLead, screen } from "./leads/record";
+
 export type InquiryErrorCode = "required" | "phone" | "email";
 export type InquiryField = "name" | "phone" | "email";
 
@@ -7,27 +11,32 @@ export type InquiryState =
   | { status: "idle" }
   | { status: "success" }
   | { status: "error"; fieldErrors: Partial<Record<InquiryField, InquiryErrorCode>> }
+  | { status: "limited" }
   | { status: "failed" };
 
 const PHONE_PATTERN = /^\+?[\d\s()-]{7,20}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function field(formData: FormData, name: string): string {
-  const value = formData.get(name);
-  return typeof value === "string" ? value.trim() : "";
+function isServiceSlug(value: string): value is ServiceSlug {
+  return (serviceSlugs as readonly string[]).includes(value);
+}
+
+/** Package pages send a subject; otherwise the chosen service decides the tab. */
+function tabFor(service: string, subject: string): InquiryTab {
+  if (subject) return "Packages";
+  if (service === "flight-tickets") return "Flights";
+  if (isServiceSlug(service)) return "Visa";
+  return "Contact";
 }
 
 /**
- * Validates an inquiry. Returns error *codes*; the form maps them to
- * dictionary strings so no user-facing text lives here.
- * TODO(epic-4): send to Google Sheets / Drive and email the sales team.
+ * Validates an inquiry and records it (S4.4). Returns error *codes*; the form
+ * maps them to dictionary strings so no user-facing text lives here.
  */
-export async function submitInquiry(
-  _prev: InquiryState,
-  formData: FormData,
-): Promise<InquiryState> {
-  // Honeypot: real users never fill this hidden field.
-  if (field(formData, "company")) return { status: "success" };
+export async function submitInquiry(_prev: InquiryState, formData: FormData): Promise<InquiryState> {
+  const screening = await screen(formData, "inquiry");
+  if (screening === "spam") return { status: "success" };
+  if (screening === "limited") return { status: "limited" };
 
   const name = field(formData, "name");
   const phone = field(formData, "phone");
@@ -43,5 +52,28 @@ export async function submitInquiry(
     return { status: "error", fieldErrors };
   }
 
-  return { status: "success" };
+  const rawService = field(formData, "service");
+  const service = isServiceSlug(rawService) ? rawService : "";
+  const subject = field(formData, "subject");
+
+  const saved = await recordLead({
+    tab: tabFor(service, subject),
+    form: "Inquiry",
+    name,
+    columns: {
+      ...contextColumns(formData),
+      Form: "Inquiry",
+      Name: name,
+      Phone: phone,
+      Email: email,
+      Service: service,
+      Subject: subject,
+      "Travel date": field(formData, "travelDate"),
+      Travellers: field(formData, "travellers"),
+      Branch: field(formData, "branch"),
+      Message: field(formData, "message"),
+    },
+  });
+
+  return saved ? { status: "success" } : { status: "failed" };
 }
