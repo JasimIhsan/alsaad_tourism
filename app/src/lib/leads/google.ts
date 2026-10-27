@@ -1,32 +1,29 @@
 import "server-only";
 
-import { OAuth2Client } from "google-auth-library";
+import { JWT } from "google-auth-library";
 import type { LeadsConfig } from "./config";
 
-// The client's own Google account authorises the site with the `drive.file`
-// scope, which only reaches files the site created (the uploads folder and the
-// leads spreadsheet made by google-setup.ts). Sheets accepts that scope too.
+// A Google service account writes to the leads spreadsheet. The client shares
+// that one sheet with the service account's email as an Editor; the account
+// has no access to anything else in their Google Drive.
 
-let client: OAuth2Client | undefined;
+let client: JWT | undefined;
 
-function oauthClient(config: LeadsConfig): OAuth2Client {
-  if (!client) {
-    client = new OAuth2Client({ clientId: config.google.clientId, clientSecret: config.google.clientSecret });
-    client.setCredentials({ refresh_token: config.google.refreshToken });
-  }
+function serviceAccount(config: LeadsConfig): JWT {
+  client ??= new JWT({
+    email: config.google.serviceAccountEmail,
+    key: config.google.privateKey,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
   return client;
 }
 
-export async function accessToken(config: LeadsConfig): Promise<string> {
-  const { token } = await oauthClient(config).getAccessToken();
+async function googleFetch(config: LeadsConfig, url: string, init: RequestInit = {}): Promise<Response> {
+  const { token } = await serviceAccount(config).getAccessToken();
   if (!token) throw new Error("Google did not return an access token");
-  return token;
-}
-
-export async function googleFetch(config: LeadsConfig, url: string, init: RequestInit = {}): Promise<Response> {
   const response = await fetch(url, {
     ...init,
-    headers: { ...init.headers, Authorization: `Bearer ${await accessToken(config)}` },
+    headers: { ...init.headers, Authorization: `Bearer ${token}` },
   });
   if (!response.ok) {
     throw new Error(`Google API ${response.status} for ${url.split("?")[0]}: ${await response.text()}`);

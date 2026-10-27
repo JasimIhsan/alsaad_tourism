@@ -374,7 +374,7 @@ export const en: SiteContent = {
         {
           heading: "Information we collect",
           paragraphs: [
-            "When you send an inquiry, we collect the details you enter, such as your name, phone number, email address, travel dates and any documents you upload.",
+            "When you send an inquiry, we collect the details you enter, such as your name, phone number, email address, travel dates and your message.",
             "We also collect anonymous usage statistics to understand how the website is used.",
           ],
         },

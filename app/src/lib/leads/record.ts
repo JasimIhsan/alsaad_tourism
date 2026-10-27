@@ -2,11 +2,9 @@ import "server-only";
 
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { format } from "@/lib/i18n/format";
-import type { UploadKind } from "@/lib/upload-rules";
 import { after } from "next/server";
-import { tabColumns, type LeadTab } from "./columns";
+import { leadColumns, type LeadTab } from "./columns";
 import { getLeadsConfig, isDevFallback, type LeadsConfig } from "./config";
-import { verifyUploads } from "./drive";
 import { sendAlert } from "./email";
 import { appendRow, sheetUrl } from "./google";
 import { allowRequest } from "./rate-limit";
@@ -30,30 +28,6 @@ export function contextColumns(formData: FormData): Record<string, string> {
   };
 }
 
-/** IDs posted by the form for one upload field (a JSON array written by the client). */
-export function fileIds(formData: FormData, name: string): string[] {
-  try {
-    const parsed: unknown = JSON.parse(field(formData, name) || "[]");
-    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === "string") : [];
-  } catch {
-    return [];
-  }
-}
-
-/**
- * Turns uploaded file IDs into Drive links after verifying them. Throws on any
- * invalid ID. In dev without credentials the client sends "dev:<file name>".
- */
-export async function resolveUploads(kind: UploadKind, ids: string[]): Promise<string[]> {
-  if (ids.length === 0) return [];
-  const config = getLeadsConfig();
-  if (!config) {
-    if (isDevFallback()) return ids.map((id) => `(not uploaded in dev) ${id.replace(/^dev:/, "")}`);
-    throw new Error("Pipeline not configured");
-  }
-  return verifyUploads(config, kind, ids);
-}
-
 export type Screening = "ok" | "spam" | "limited";
 
 /** Honeypot plus a per-IP limit of 5 submissions per 10 minutes for each form. */
@@ -73,7 +47,7 @@ type LeadRecord = {
 
 async function alertText(config: LeadsConfig, lead: LeadRecord, row: string[], sheetFailed: boolean) {
   const t = (await getDictionary("en")).leads.email;
-  const lines = tabColumns[lead.tab].map((column, index) => `${column}: ${row[index] || "-"}`);
+  const lines = leadColumns.map((column, index) => `${column}: ${row[index] || "-"}`);
   const intro = sheetFailed ? [t.sheetFailed, ""] : [];
   return [...intro, ...lines, "", format(t.sheetLink, { url: sheetUrl(config) })].join("\n");
 }
@@ -85,7 +59,7 @@ async function alertText(config: LeadsConfig, lead: LeadRecord, row: string[], s
  */
 export async function recordLead(lead: LeadRecord): Promise<boolean> {
   const columns: Record<string, string> = { ...lead.columns, Timestamp: new Date().toISOString() };
-  const row = tabColumns[lead.tab].map((column) => columns[column] ?? "");
+  const row = leadColumns.map((column) => columns[column] ?? "");
   const config = getLeadsConfig();
 
   if (!config) {

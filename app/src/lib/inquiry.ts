@@ -1,7 +1,7 @@
 "use server";
 
 import { serviceSlugs, type ServiceSlug } from "@/content/data/types";
-import type { InquiryTab } from "./leads/columns";
+import type { LeadTab } from "./leads/columns";
 import { contextColumns, field, recordLead, screen } from "./leads/record";
 
 export type InquiryErrorCode = "required" | "phone" | "email";
@@ -22,7 +22,7 @@ function isServiceSlug(value: string): value is ServiceSlug {
 }
 
 /** Package pages send a subject; otherwise the chosen service decides the tab. */
-function tabFor(service: string, subject: string): InquiryTab {
+function tabFor(service: string, subject: string): LeadTab {
   if (subject) return "Packages";
   if (service === "flight-tickets") return "Flights";
   if (isServiceSlug(service)) return "Visa";

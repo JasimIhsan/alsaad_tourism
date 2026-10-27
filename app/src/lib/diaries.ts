@@ -4,9 +4,14 @@ import { packageSlugs, serviceSlugs, type PackageSlug, type ServiceSlug } from "
 import matter from "gray-matter";
 import fs from "node:fs";
 import path from "node:path";
-import { isDiaryLanguage, type DiaryLanguage } from "./diary-rules";
 
-export type { DiaryLanguage };
+/** Languages a story may be written in (BRD 2.1). */
+const diaryLanguages = ["en", "ar", "ml", "hi", "ur"] as const;
+export type DiaryLanguage = (typeof diaryLanguages)[number];
+
+function isDiaryLanguage(value: unknown): value is DiaryLanguage {
+  return typeof value === "string" && (diaryLanguages as readonly string[]).includes(value);
+}
 
 const rtlLanguages: readonly DiaryLanguage[] = ["ar", "ur"];
 

@@ -1,4 +1,3 @@
-import { ButtonLink } from "@/components/motion/button/base";
 import { DetailBlock as Block, FactsCard, IconList } from "@/components/sections/detail-block";
 import { FaqList } from "@/components/sections/faq-list";
 import { InquiryForm } from "@/components/sections/inquiry-form";
@@ -89,21 +88,6 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
             title={t.facts}
             facts={[...service.facts, { label: t.price, value: service.priceNote }]}
           />
-
-          {slug === "uae-tourist-visa" ? (
-            <div className="rounded-card bg-inverse p-7 text-inverse-foreground">
-              <p className="text-inverse-muted">{dict.visaPage.applyHint}</p>
-              <ButtonLink
-                href={localizedHref(locale, "/visa-application")}
-                variant="primary"
-                size="md"
-                className="mt-5 w-full"
-              >
-                {dict.visaPage.applyCta}
-                <ArrowRight aria-hidden="true" className="size-4 rtl:-scale-x-100" />
-              </ButtonLink>
-            </div>
-          ) : null}
 
           <div id="inquiry" className="scroll-mt-28 rounded-card border border-border p-7">
             <h2 className="font-display text-2xl">{t.inquiryTitle}</h2>

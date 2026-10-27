@@ -1,4 +1,3 @@
-import { ButtonLink } from "@/components/motion/button/base";
 import { InquiryTrigger } from "@/components/sections/inquiry-trigger";
 import { getContent } from "@/content/data/get-content";
 import { diaryDirection, getDiaries, getDiary, isServiceSlug } from "@/lib/diaries";
@@ -191,12 +190,7 @@ export default async function DiaryPage({ params }: PageProps<"/[lang]/diaries/[
       {more.length > 0 ? (
         <section className="border-t border-border py-20">
           <div className="mx-auto w-full max-w-6xl px-6">
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-              <h2 className="font-display text-3xl md:text-4xl">{t.story.more}</h2>
-              <ButtonLink href={localizedHref(locale, "/diaries/submit")} variant="outline" size="sm">
-                {t.shareCta}
-              </ButtonLink>
-            </div>
+            <h2 className="mb-10 font-display text-3xl md:text-4xl">{t.story.more}</h2>
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {more.map((d) => (
                 <li key={d.slug} className="grid">

@@ -30,14 +30,6 @@
     "diaries": {
       "title": "Traveler Diaries",
       "description": "Travelogues from our travellers: day-by-day accounts of desert safaris, city breaks, family trips and journeys abroad."
-    },
-    "visa": {
-      "title": "Apply for a UAE tourist visa",
-      "description": "Apply online for a 30 or 60-day UAE tourist visa. Upload your passport and photo and our visa desk handles the rest."
-    },
-    "diarySubmit": {
-      "title": "Share your story",
-      "description": "Tell other travellers about your trip with Al Saadah Tourism and share your photos."
     }
   },
   "common": {
@@ -256,7 +248,6 @@
     "eyebrow": "Traveler Diaries",
     "title": "Stories from the road.",
     "description": "Travelogues from the travellers we helped: day-by-day accounts of their trips, in their own words, photos and language.",
-    "shareCta": "Share your story",
     "readingTime": "{time} read",
     "facts": {
       "destination": "Destination",
@@ -283,58 +274,6 @@
       "ctaDetails": "See details",
       "ctaInquire": "Inquire now",
       "more": "More stories"
-    },
-    "submit": {
-      "eyebrow": "Traveler Diaries",
-      "title": "Share your story.",
-      "description": "Travelled with us? Write your travelogue: where you went, what each day was like and what you would tell a friend. Any language is welcome.",
-      "fields": {
-        "name": {
-          "label": "Your name",
-          "placeholder": "As you want it shown, e.g. Sarah L."
-        },
-        "trip": {
-          "label": "Your trip",
-          "placeholder": "e.g. Desert safari, September 2026"
-        },
-        "language": {
-          "label": "Story language",
-          "placeholder": "Choose a language"
-        },
-        "rating": {
-          "label": "Your rating",
-          "star": "{rating} out of 5"
-        },
-        "story": {
-          "label": "Your story",
-          "placeholder": "Take us through your trip: the places, the people, the food, and the moments you still think about. Day by day works well.",
-          "hint": "At least {min} characters."
-        },
-        "photos": {
-          "label": "Photos",
-          "choose": "Choose photos from your device",
-          "hint": "Up to {max} photos, JPG, PNG or WEBP, {size} MB each.",
-          "selected": "{count} selected"
-        },
-        "consent": "I agree that Al Saadah Tourism may edit and publish my story, name and photos on its website."
-      },
-      "submit": "Send my story",
-      "submitting": "Sending…",
-      "uploading": "Uploading photos…",
-      "successTitle": "Thank you for sharing your story.",
-      "successDescription": "Our team will review your story before publishing. We will message you if we have any questions.",
-      "sendAnother": "Share another story",
-      "errorGeneric": "We couldn't send your story. Please try again, or send it to us on WhatsApp.",
-      "errorLimited": "You've sent several stories in a short time. Please wait a few minutes, or send it to us on WhatsApp.",
-      "errors": {
-        "required": "This field is required.",
-        "rating": "Choose a rating from 1 to 5.",
-        "storyLength": "Please write at least {min} characters.",
-        "fileCount": "You can add up to {max} photos.",
-        "fileType": "Photos must be JPG, PNG or WEBP.",
-        "fileSize": "Each photo must be {size} MB or smaller.",
-        "consent": "Please agree before sending your story."
-      }
     }
   },
   "aboutPage": {
@@ -444,55 +383,6 @@
   "drawer": {
     "title": "Tell us about your journey",
     "description": "Share a few details and our team will get back to you."
-  },
-  "visaPage": {
-    "eyebrow": "UAE tourist visa",
-    "title": "Apply for your UAE visa online.",
-    "description": "Choose a 30 or 60-day visa, upload your passport and photo, and our visa desk takes it from there.",
-    "applyCta": "Apply online",
-    "applyHint": "Ready to apply? Upload your documents and we start the same day.",
-    "steps": {
-      "title": "What happens next",
-      "items": [
-        "Our visa desk checks your documents, usually within a few hours.",
-        "We confirm the price and payment on WhatsApp.",
-        "Your e-visa arrives by WhatsApp and email once it is issued."
-      ]
-    },
-    "privacy": "Your documents are stored privately and used only for your visa application.",
-    "form": {
-      "nationality": {
-        "label": "Nationality",
-        "placeholder": "As shown in your passport"
-      },
-      "visaType": {
-        "label": "Visa type",
-        "options": {
-          "30": "30-day tourist visa",
-          "60": "60-day tourist visa"
-        }
-      },
-      "passport": {
-        "label": "Passport copy",
-        "hint": "The photo page. JPG, PNG or PDF, up to {size} MB.",
-        "choose": "Choose a file"
-      },
-      "photo": {
-        "label": "Personal photo",
-        "hint": "A recent passport-style photo on a white background. JPG or PNG, up to {size} MB.",
-        "choose": "Choose a photo"
-      },
-      "submit": "Submit application",
-      "uploading": "Uploading documents…",
-      "successTitle": "Application received.",
-      "successDescription": "Our visa desk will check your documents and contact you on WhatsApp shortly.",
-      "sendAnother": "Submit another application",
-      "errors": {
-        "fileCount": "Please choose one file.",
-        "fileType": "This file type isn't accepted.",
-        "fileSize": "This file is larger than {size} MB."
-      }
-    }
   },
   "leads": {
     "email": {

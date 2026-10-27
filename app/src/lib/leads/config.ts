@@ -2,9 +2,8 @@ import "server-only";
 
 /** Pipeline credentials (see .env.example). Never exposed to the browser. */
 export type LeadsConfig = {
-  google: { clientId: string; clientSecret: string; refreshToken: string };
+  google: { serviceAccountEmail: string; privateKey: string };
   sheetId: string;
-  driveFolderId: string;
   email: { apiKey: string; from: string; to: string[] };
 };
 
@@ -12,11 +11,9 @@ export type LeadsConfig = {
 export function getLeadsConfig(): LeadsConfig | null {
   const env = process.env;
   const values = {
-    clientId: env.GOOGLE_CLIENT_ID,
-    clientSecret: env.GOOGLE_CLIENT_SECRET,
-    refreshToken: env.GOOGLE_REFRESH_TOKEN,
+    serviceAccountEmail: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    privateKey: env.GOOGLE_PRIVATE_KEY,
     sheetId: env.LEADS_SHEET_ID,
-    driveFolderId: env.LEADS_DRIVE_FOLDER_ID,
     apiKey: env.RESEND_API_KEY,
     from: env.LEADS_EMAIL_FROM,
     to: env.LEADS_EMAIL_TO,
@@ -24,9 +21,12 @@ export function getLeadsConfig(): LeadsConfig | null {
   if (Object.values(values).some((value) => !value)) return null;
 
   return {
-    google: { clientId: values.clientId!, clientSecret: values.clientSecret!, refreshToken: values.refreshToken! },
+    google: {
+      serviceAccountEmail: values.serviceAccountEmail!,
+      // Env UIs store the PEM key on one line with literal "\n" sequences.
+      privateKey: values.privateKey!.replace(/\\n/g, "\n"),
+    },
     sheetId: values.sheetId!,
-    driveFolderId: values.driveFolderId!,
     email: {
       apiKey: values.apiKey!,
       from: values.from!,

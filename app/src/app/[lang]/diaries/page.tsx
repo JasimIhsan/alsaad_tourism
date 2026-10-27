@@ -1,11 +1,8 @@
-import { ButtonLink } from "@/components/motion/button/base";
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHero } from "@/components/sections/page-hero";
 import { getContent } from "@/content/data/get-content";
 import { getDiaries } from "@/lib/diaries";
-import { localizedHref } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
-import { PenLine } from "lucide-react";
 import type { Metadata } from "next";
 import { DiaryFeed } from "./_components/diary-feed";
 import { toCardData, tagLabel } from "./_components/to-card-data";
@@ -27,12 +24,7 @@ export default async function DiariesPage() {
 
   return (
     <>
-      <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description}>
-        <ButtonLink href={localizedHref(locale, "/diaries/submit")} variant="primary" size="md">
-          <PenLine aria-hidden="true" className="size-4" />
-          {page.shareCta}
-        </ButtonLink>
-      </PageHero>
+      <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} />
       <section className="pb-8">
         <div className="mx-auto w-full max-w-6xl px-6">
           <DiaryFeed
