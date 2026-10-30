@@ -1,3 +1,4 @@
+import { ButtonLink } from "@/components/motion/button/base";
 import { Reveal } from "@/components/motion/reveal";
 import { RatingStars } from "@/components/sections/rating-stars";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -21,18 +22,39 @@ export function formatReviewCount(locale: Locale, count: number) {
   return new Intl.NumberFormat(intlLocales[locale]).format(count);
 }
 
-type GoogleReviewsSectionProps = {
+type GoogleReviewsProps = {
   data: GoogleReviews;
   labels: Labels;
   locale: Locale;
-  /** Google returns at most 5 reviews; the summary card plus 5 fills a 3x2 grid. */
-  limit?: number;
 };
 
-/** Server-rendered Google reviews with the attribution Google's display terms require. */
-export function GoogleReviewsSection({ data, labels, locale, limit = 5 }: GoogleReviewsSectionProps) {
+/**
+ * The summary card plus every review Google returned (at most 5, so it fills a 3x2 grid),
+ * with the attribution Google's display terms require.
+ */
+export function GoogleReviewsGrid({ data, labels, locale }: GoogleReviewsProps) {
+  return (
+    <ul aria-label={labels.listLabel} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <Reveal as="li" className="grid">
+        <SummaryCard data={data} labels={labels} locale={locale} />
+      </Reveal>
+      {data.reviews.map((review, index) => (
+        <Reveal key={`${review.author}-${index}`} as="li" delay={(index + 1) * 0.06} className="grid">
+          <ReviewCard review={review} labels={labels} />
+        </Reveal>
+      ))}
+    </ul>
+  );
+}
+
+/** Home-page section: heading, the grid and a link to the full reviews page. */
+export function GoogleReviewsSection({
+  data,
+  labels,
+  locale,
+  allHref,
+}: GoogleReviewsProps & { allHref: string }) {
   const titleId = useId();
-  const reviews = data.reviews.slice(0, limit);
 
   return (
     <section aria-labelledby={titleId} className="py-24 md:py-32">
@@ -42,17 +64,13 @@ export function GoogleReviewsSection({ data, labels, locale, limit = 5 }: Google
           eyebrow={labels.eyebrow}
           title={labels.title}
           description={labels.description}
+          action={
+            <ButtonLink href={allHref} variant="outline" size="sm">
+              {labels.allReviews}
+            </ButtonLink>
+          }
         />
-        <ul aria-label={labels.listLabel} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <Reveal as="li" className="grid">
-            <SummaryCard data={data} labels={labels} locale={locale} />
-          </Reveal>
-          {reviews.map((review, index) => (
-            <Reveal key={`${review.author}-${index}`} as="li" delay={(index + 1) * 0.06} className="grid">
-              <ReviewCard review={review} labels={labels} />
-            </Reveal>
-          ))}
-        </ul>
+        <GoogleReviewsGrid data={data} labels={labels} locale={locale} />
       </div>
     </section>
   );

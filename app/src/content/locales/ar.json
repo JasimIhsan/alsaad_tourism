@@ -20,6 +20,10 @@
       "title": "الأسئلة الشائعة",
       "description": "إجابات حول سياسات التأشيرات والمستندات وطرق الدفع والإلغاء."
     },
+    "reviews": {
+      "title": "تقييمات Google",
+      "description": "ماذا يقول المسافرون عن السعادة للسياحة على Google."
+    },
     "contact": {
       "title": "التواصل والفروع",
       "description": "تعرّف على فروعنا في الشارقة ودبي والصجعة والهند، أو أرسل لنا استفسارك."
@@ -403,7 +407,13 @@
     "badgeValue": "{rating} · {count} تقييم",
     "seeAll": "عرض كل التقييمات على Google",
     "attribution": "تقييمات من Google",
-    "authorLink": "{author} على خرائط Google"
+    "authorLink": "{author} على خرائط Google",
+    "allReviews": "كل التقييمات",
+    "page": {
+      "eyebrow": "تقييمات Google",
+      "title": "كل تقييم كما نُشر على Google.",
+      "description": "تعرض Google هنا أحدث تقييماتنا. اقرأ البقية، أو اترك تقييمك، على صفحتنا في Google."
+    }
   },
   "images": {
     "dubaiSkyline": "أفق دبي مع برج خليفة",

@@ -97,7 +97,12 @@ export default async function HomePage() {
         items={highlights}
       />
       {googleReviews && googleReviews.reviews.length > 0 ? (
-        <GoogleReviewsSection data={googleReviews} labels={dict.reviews} locale={locale} />
+        <GoogleReviewsSection
+          data={googleReviews}
+          labels={dict.reviews}
+          locale={locale}
+          allHref={href("/reviews")}
+        />
       ) : (
         // Placeholder stories until the Google credentials are set (S5.1).
         <Testimonials

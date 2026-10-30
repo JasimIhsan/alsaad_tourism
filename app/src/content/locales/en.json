@@ -20,6 +20,10 @@
       "title": "FAQ",
       "description": "Answers about visa policies, documents, payment methods and cancellations."
     },
+    "reviews": {
+      "title": "Google reviews",
+      "description": "What travellers say about Al Saadah Tourism on Google."
+    },
     "contact": {
       "title": "Contact & branches",
       "description": "Find our branches in Sharjah, Dubai, Sajaa and India, or send us an inquiry."
@@ -403,7 +407,13 @@
     "badgeValue": "{rating} · {count} reviews",
     "seeAll": "See all reviews on Google",
     "attribution": "Reviews from Google",
-    "authorLink": "{author} on Google Maps"
+    "authorLink": "{author} on Google Maps",
+    "allReviews": "All reviews",
+    "page": {
+      "eyebrow": "Google reviews",
+      "title": "Every review, as posted on Google.",
+      "description": "Google shares our most recent reviews here. Read the rest, or leave your own, on our Google listing."
+    }
   },
   "images": {
     "dubaiSkyline": "Dubai skyline with the Burj Khalifa",
