@@ -35,7 +35,7 @@ export async function SiteFooter({ locale, dict, content }: SiteFooterProps) {
       <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))] md:gap-8">
           <div className="max-w-xs">
-            <Logo href={href("/")} label={dict.meta.siteName} />
+            <Logo href={href("/")} brand={{ name: dict.meta.brandName, tagline: dict.meta.brandTagline }} />
             <p className="mt-4 text-muted-foreground">{footer.tagline}</p>
           </div>
 

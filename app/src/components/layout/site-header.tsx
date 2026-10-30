@@ -16,7 +16,7 @@ import type { NavItem } from "./nav-types";
 
 type SiteHeaderProps = {
   homeHref: string;
-  siteName: string;
+  brand: { name: string; tagline: string };
   items: NavItem[];
   navLabel: string;
   ctaLabel: string;
@@ -26,7 +26,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({
   homeHref,
-  siteName,
+  brand,
   items,
   navLabel,
   ctaLabel,
@@ -46,11 +46,11 @@ export function SiteHeader({
     <div className="pointer-events-none fixed inset-x-0 top-4 z-40 px-4">
       <header
         className={cn(
-          "pointer-events-auto mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-full border border-glass-border p-2 backdrop-blur-md backdrop-saturate-150 transition-[background-color,box-shadow] duration-400 ease-brand",
+          "pointer-events-auto mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-full border border-glass-border py-2 ps-5 pe-2 backdrop-blur-md backdrop-saturate-150 transition-[background-color,box-shadow] duration-400 ease-brand",
           scrolled ? "bg-glass-strong shadow-raised" : "bg-glass",
         )}
       >
-        <Logo href={homeHref} label={siteName} />
+        <Logo href={homeHref} brand={brand} />
 
         <nav aria-label={navLabel} className="hidden lg:block">
           <ul className="flex items-center gap-6 text-sm">

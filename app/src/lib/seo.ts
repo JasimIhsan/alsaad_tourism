@@ -91,7 +91,7 @@ export function travelAgencyJsonLd(locale: Locale, dict: Dictionary, content: Si
     url: absoluteUrl(localizedHref(locale, "/")),
     description: dict.meta.description,
     image: absoluteUrl(photos.dubaiSkyline.src),
-    logo: absoluteUrl("/logo.png"),
+    logo: absoluteUrl("/logo-emblem.png"),
     telephone: contact.phones.mobile.tel,
     department: branchIds
       .filter((id) => content.branches[id].mapQuery)

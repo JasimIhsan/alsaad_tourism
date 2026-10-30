@@ -91,11 +91,14 @@
   /* Font stacks switch per locale; next/font variables are set on <html>. */
   --font-body: var(--font-inter), "Helvetica Neue", Arial, system-ui, sans-serif;
   --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  /* Name and tagline beside the logo emblem. */
+  --font-brand: var(--font-quicksand), "Helvetica Neue", Arial, system-ui, sans-serif;
 }
 
 :root:lang(ar) {
   --font-body: var(--font-plex-arabic), var(--font-inter), Tahoma, system-ui, sans-serif;
   --font-display: var(--font-naskh), var(--font-playfair), serif;
+  --font-brand: var(--font-plex-arabic), Tahoma, system-ui, sans-serif;
 }
 
 /* Traveler Diaries carry their own `lang`, independent of the site locale:
@@ -113,6 +116,7 @@
 @theme inline {
   --font-sans: var(--font-body);
   --font-heading: var(--font-display);
+  --font-wordmark: var(--font-brand);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

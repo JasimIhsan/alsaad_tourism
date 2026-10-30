@@ -15,8 +15,10 @@ import { getI18n } from "@/lib/i18n/server";
 import { getSiteUrl, pageMetadata } from "@/lib/seo";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { IBM_Plex_Sans_Arabic, Inter, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google";
+import { IBM_Plex_Sans_Arabic, Inter, Noto_Naskh_Arabic, Playfair_Display, Quicksand } from "next/font/google";
 
+// Rounded geometric sans that matches the logo's wordmark; used only for the name and tagline beside the emblem.
+const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-quicksand", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -100,7 +102,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
     <html
       lang={locale}
       dir={getDirection(locale)}
-      className={`${inter.variable} ${playfair.variable} ${naskh.variable} ${plexArabic.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${quicksand.variable} ${naskh.variable} ${plexArabic.variable}`}
     >
       <body>
         <a
@@ -118,7 +120,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
           >
             <SiteHeader
               homeHref={href("/")}
-              siteName={dict.meta.siteName}
+              brand={{ name: dict.meta.brandName, tagline: dict.meta.brandTagline }}
               items={navItems}
               navLabel={dict.nav.primaryLabel}
               ctaLabel={dict.nav.planJourney}
