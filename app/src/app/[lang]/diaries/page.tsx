@@ -3,13 +3,20 @@ import { PageHero } from "@/components/sections/page-hero";
 import { getContent } from "@/content/data/get-content";
 import { getDiaries } from "@/lib/diaries";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { DiaryFeed } from "./_components/diary-feed";
 import { toCardData, tagLabel } from "./_components/to-card-data";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
-  return { title: dict.meta.diaries.title, description: dict.meta.diaries.description };
+  const { locale, dict } = await getI18n();
+  return pageMetadata({
+    locale,
+    dict,
+    path: "/diaries",
+    title: dict.meta.diaries.title,
+    description: dict.meta.diaries.description,
+  });
 }
 
 export default async function DiariesPage() {

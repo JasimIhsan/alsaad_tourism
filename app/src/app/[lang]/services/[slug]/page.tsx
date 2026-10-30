@@ -7,6 +7,7 @@ import { serviceMeta } from "@/content/data/site";
 import { serviceSlugs, type ServiceSlug } from "@/content/data/types";
 import { localizedHref } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import { ArrowRight, Check, FileText, Info } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -23,10 +24,17 @@ function isServiceSlug(value: string): value is ServiceSlug {
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/services/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const { locale } = await getI18n();
+  const { locale, dict } = await getI18n();
   if (!isServiceSlug(slug)) return {};
   const service = getContent(locale).services[slug];
-  return { title: service.title, description: service.summary };
+  return pageMetadata({
+    locale,
+    dict,
+    path: `/services/${slug}`,
+    title: service.title,
+    description: service.summary,
+    image: serviceMeta[slug].photo,
+  });
 }
 
 export default async function ServicePage({ params }: PageProps<"/[lang]/services/[slug]">) {

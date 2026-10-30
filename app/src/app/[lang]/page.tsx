@@ -11,12 +11,20 @@ import { serviceMeta } from "@/content/data/site";
 import { packageSlugs, serviceSlugs, type ServiceSlug } from "@/content/data/types";
 import { localizedHref } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
+import { JsonLd } from "@/components/sections/json-ld";
+import { pageMetadata, travelAgencyJsonLd } from "@/lib/seo";
+import type { Metadata } from "next";
 import { FeaturedServices } from "./_components/featured-services";
 import { Highlights } from "./_components/highlights";
 import { Hero } from "./_components/hero";
 import { PackagesBento } from "./_components/packages-bento";
 import { Testimonials } from "./_components/testimonials";
 import { TrustStrip } from "./_components/trust-strip";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { locale, dict } = await getI18n();
+  return pageMetadata({ locale, dict, path: "/", description: dict.meta.description });
+}
 
 export default async function HomePage() {
   const { locale, dict } = await getI18n();
@@ -62,6 +70,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={travelAgencyJsonLd(locale, dict, content)} />
       <Hero
         dict={home}
         formDict={dict.form}

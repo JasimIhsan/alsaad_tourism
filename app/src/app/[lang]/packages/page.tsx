@@ -7,12 +7,19 @@ import { packageMeta } from "@/content/data/site";
 import { packageSlugs } from "@/content/data/types";
 import { localizedHref } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
-  return { title: dict.meta.packages.title, description: dict.meta.packages.description };
+  const { locale, dict } = await getI18n();
+  return pageMetadata({
+    locale,
+    dict,
+    path: "/packages",
+    title: dict.meta.packages.title,
+    description: dict.meta.packages.description,
+  });
 }
 
 // Alternating wide/narrow tiles keep the bento rhythm from the home page.

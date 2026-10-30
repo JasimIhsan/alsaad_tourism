@@ -9,6 +9,8 @@ import {
 import { localizedHref } from "@/lib/i18n/config";
 import { format } from "@/lib/i18n/format";
 import { getI18n } from "@/lib/i18n/server";
+import { articleJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/sections/json-ld";
 import {
   ArrowLeft,
   ArrowRight,
@@ -43,13 +45,18 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[lang]/diaries/[slug]">): Promise<Metadata> {
   const { slug } = await params;
+  const { locale, dict } = await getI18n();
   const diary = getDiary(slug);
   if (!diary) return {};
-  return {
+  return pageMetadata({
+    locale,
+    dict,
+    path: `/diaries/${slug}`,
     title: diary.title,
     description: diary.excerpt,
-    openGraph: { images: [diary.cover.src] },
-  };
+    image: diary.cover,
+    type: "article",
+  });
 }
 
 export default async function DiaryPage({
@@ -97,6 +104,7 @@ export default async function DiaryPage({
 
   return (
     <>
+      <JsonLd data={articleJsonLd(locale, dict, diary)} />
       <section className="pt-32 pb-10 md:pt-40">
         <div className="mx-auto w-full max-w-6xl px-6">
           <Link

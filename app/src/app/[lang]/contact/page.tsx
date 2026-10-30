@@ -5,14 +5,22 @@ import { branchMeta } from "@/content/data/site";
 import { branchIds, serviceSlugs } from "@/content/data/types";
 import { format } from "@/lib/i18n/format";
 import { getI18n } from "@/lib/i18n/server";
+import { JsonLd } from "@/components/sections/json-ld";
+import { pageMetadata, travelAgencyJsonLd } from "@/lib/seo";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { BranchMap } from "./_components/branch-map";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
-  return { title: dict.meta.contact.title, description: dict.meta.contact.description };
+  const { locale, dict } = await getI18n();
+  return pageMetadata({
+    locale,
+    dict,
+    path: "/contact",
+    title: dict.meta.contact.title,
+    description: dict.meta.contact.description,
+  });
 }
 
 export default async function ContactPage() {
@@ -24,6 +32,7 @@ export default async function ContactPage() {
 
   return (
     <>
+      <JsonLd data={travelAgencyJsonLd(locale, dict, content)} />
       <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} />
 
       <section aria-labelledby="branches-title" className="pb-20">

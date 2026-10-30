@@ -6,12 +6,19 @@ import { serviceMeta } from "@/content/data/site";
 import { serviceSlugs } from "@/content/data/types";
 import { localizedHref } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { ServiceCard } from "./_components/service-card";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
-  return { title: dict.meta.services.title, description: dict.meta.services.description };
+  const { locale, dict } = await getI18n();
+  return pageMetadata({
+    locale,
+    dict,
+    path: "/services",
+    title: dict.meta.services.title,
+    description: dict.meta.services.description,
+  });
 }
 
 export default async function ServicesPage() {

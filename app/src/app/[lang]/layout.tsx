@@ -11,6 +11,7 @@ import { packageSlugs, serviceSlugs } from "@/content/data/types";
 import { getDirection, localizedHref, locales } from "@/lib/i18n/config";
 import { LocaleProvider } from "@/lib/i18n/locale-provider";
 import { getI18n } from "@/lib/i18n/server";
+import { getSiteUrl, pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Arabic, Inter, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google";
 
@@ -35,11 +36,17 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
+  const { locale, dict } = await getI18n();
+  // Defaults for pages that set no metadata of their own (e.g. the 404). Canonical and
+  // hreflang are per page, so they are not set here.
+  const { openGraph, twitter } = pageMetadata({ locale, dict, path: "/", description: dict.meta.description });
   return {
+    metadataBase: new URL(getSiteUrl()),
     title: { default: dict.meta.defaultTitle, template: dict.meta.titleTemplate },
     description: dict.meta.description,
     applicationName: dict.meta.siteName,
+    openGraph: { ...openGraph, url: undefined },
+    twitter,
   };
 }
 

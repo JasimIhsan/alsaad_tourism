@@ -10,6 +10,7 @@ import { packageSlugs, serviceSlugs, type PackageSlug } from "@/content/data/typ
 import { localizedHref } from "@/lib/i18n/config";
 import { format } from "@/lib/i18n/format";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 import type { Metadata } from "next";
@@ -25,10 +26,17 @@ function isPackageSlug(value: string): value is PackageSlug {
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/packages/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const { locale } = await getI18n();
+  const { locale, dict } = await getI18n();
   if (!isPackageSlug(slug)) return {};
   const pkg = getContent(locale).packages[slug];
-  return { title: pkg.title, description: pkg.summary };
+  return pageMetadata({
+    locale,
+    dict,
+    path: `/packages/${slug}`,
+    title: pkg.title,
+    description: pkg.summary,
+    image: packageMeta[slug].photo,
+  });
 }
 
 export default async function PackagePage({ params }: PageProps<"/[lang]/packages/[slug]">) {

@@ -4,15 +4,19 @@ import { PageHero } from "@/components/sections/page-hero";
 import { PhotoFill } from "@/components/sections/photo-fill";
 import { pagePhotos } from "@/content/data/site";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import { BadgeCheck } from "lucide-react";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
-  return {
+  const { locale, dict } = await getI18n();
+  return pageMetadata({
+    locale,
+    dict,
+    path: "/about",
     title: dict.meta.about.title,
     description: dict.meta.about.description,
-  };
+  });
 }
 
 export default async function AboutPage() {

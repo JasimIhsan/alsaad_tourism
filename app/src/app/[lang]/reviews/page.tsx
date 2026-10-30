@@ -3,12 +3,19 @@ import { GoogleReviewsGrid } from "@/components/sections/google-reviews";
 import { PageHero } from "@/components/sections/page-hero";
 import { getGoogleReviews } from "@/lib/google-reviews";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
-  return { title: dict.meta.reviews.title, description: dict.meta.reviews.description };
+  const { locale, dict } = await getI18n();
+  return pageMetadata({
+    locale,
+    dict,
+    path: "/reviews",
+    title: dict.meta.reviews.title,
+    description: dict.meta.reviews.description,
+  });
 }
 
 export default async function ReviewsPage() {

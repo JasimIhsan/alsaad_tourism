@@ -5,6 +5,7 @@ import { legalSlugs, type LegalSlug } from "@/content/data/types";
 import { intlLocales, localizedHref } from "@/lib/i18n/config";
 import { format } from "@/lib/i18n/format";
 import { getI18n } from "@/lib/i18n/server";
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,10 +20,10 @@ function isLegalSlug(value: string): value is LegalSlug {
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/legal/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const { locale } = await getI18n();
+  const { locale, dict } = await getI18n();
   if (!isLegalSlug(slug)) return {};
   const doc = getContent(locale).legal[slug];
-  return { title: doc.title, description: doc.intro };
+  return pageMetadata({ locale, dict, path: `/legal/${slug}`, title: doc.title, description: doc.intro });
 }
 
 export default async function LegalPage({ params }: PageProps<"/[lang]/legal/[slug]">) {

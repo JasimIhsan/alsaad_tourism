@@ -3,12 +3,20 @@ import { PageHero } from "@/components/sections/page-hero";
 import { getContent } from "@/content/data/get-content";
 import { localizedHref } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
+import { JsonLd } from "@/components/sections/json-ld";
+import { faqJsonLd, pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { FaqSearch } from "./_components/faq-search";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getI18n();
-  return { title: dict.meta.faq.title, description: dict.meta.faq.description };
+  const { locale, dict } = await getI18n();
+  return pageMetadata({
+    locale,
+    dict,
+    path: "/faq",
+    title: dict.meta.faq.title,
+    description: dict.meta.faq.description,
+  });
 }
 
 export default async function FaqPage() {
@@ -17,6 +25,7 @@ export default async function FaqPage() {
 
   return (
     <>
+      <JsonLd data={faqJsonLd(getContent(locale))} />
       <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} />
       <section className="pb-20">
         <div className="mx-auto w-full max-w-4xl px-6">
