@@ -1,5 +1,6 @@
 import "../globals.css";
 
+import { AnalyticsEvents } from "@/components/layout/analytics-events";
 import { ContactFab } from "@/components/layout/contact-fab";
 import type { NavItem } from "@/components/layout/nav-types";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -12,6 +13,7 @@ import { getDirection, localizedHref, locales } from "@/lib/i18n/config";
 import { LocaleProvider } from "@/lib/i18n/locale-provider";
 import { getI18n } from "@/lib/i18n/server";
 import { getSiteUrl, pageMetadata } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Arabic, Inter, Noto_Naskh_Arabic, Playfair_Display } from "next/font/google";
 
@@ -107,6 +109,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         >
           {dict.common.skipToContent}
         </a>
+        <Analytics />
+        <AnalyticsEvents />
         <LocaleProvider locale={locale}>
           <InquiryDrawerProvider
             dict={{ drawer: dict.drawer, form: dict.form, close: dict.common.close }}

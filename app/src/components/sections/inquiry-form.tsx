@@ -7,12 +7,13 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea";
 import { UtmFields } from "@/lib/hooks/use-utm";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { trackEvent } from "@/lib/analytics";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { submitInquiry, type InquiryField, type InquiryState } from "@/lib/inquiry";
 import { cn } from "@/lib/utils";
 import { CircleCheck } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useActionState, useId, useState, useTransition, type FormEvent, type ReactNode } from "react";
+import { useActionState, useEffect, useId, useState, useTransition, type FormEvent, type ReactNode } from "react";
 import { FormFailure } from "./form-failure";
 
 export type Option = { value: string; label: string };
@@ -60,6 +61,12 @@ function InquiryFormInner({
   const { locale } = useLocale();
   const pathname = usePathname();
   const compact = variant === "compact";
+
+  useEffect(() => {
+    if (state.status === "success" && state.tab) {
+      trackEvent("form_submit", { type: state.tab.toLowerCase(), form: variant });
+    }
+  }, [state, variant]);
 
   // Submitting through a transition (not <form action>) keeps the fields filled when validation fails.
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {

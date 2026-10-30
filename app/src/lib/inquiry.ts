@@ -9,7 +9,8 @@ export type InquiryField = "name" | "phone" | "email";
 
 export type InquiryState =
   | { status: "idle" }
-  | { status: "success" }
+  /** `tab` is the lead's destination, used to count submissions by type; absent for filtered spam. */
+  | { status: "success"; tab?: LeadTab }
   | { status: "error"; fieldErrors: Partial<Record<InquiryField, InquiryErrorCode>> }
   | { status: "limited" }
   | { status: "failed" };
@@ -56,8 +57,9 @@ export async function submitInquiry(_prev: InquiryState, formData: FormData): Pr
   const service = isServiceSlug(rawService) ? rawService : "";
   const subject = field(formData, "subject");
 
+  const tab = tabFor(service, subject);
   const saved = await recordLead({
-    tab: tabFor(service, subject),
+    tab,
     form: "Inquiry",
     name,
     columns: {
@@ -75,5 +77,5 @@ export async function submitInquiry(_prev: InquiryState, formData: FormData): Pr
     },
   });
 
-  return saved ? { status: "success" } : { status: "failed" };
+  return saved ? { status: "success", tab } : { status: "failed" };
 }
