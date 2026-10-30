@@ -28,7 +28,10 @@ export function localeUrls(path: string): Record<string, string> {
   };
 }
 
-type SocialImage = { src: string; alt: string };
+type SocialImage = { src: string; alt: string; width?: number; height?: number };
+
+/** Logo on white, 1200x630: the default share image, shown in WhatsApp, Facebook, LinkedIn and the like. */
+const BRAND_CARD = { src: "/og-logo.png", width: 1200, height: 630 } as const;
 
 type PageMetadataInput = {
   locale: Locale;
@@ -38,7 +41,7 @@ type PageMetadataInput = {
   /** Omit on the home page so the layout's default title is used. */
   title?: string;
   description: string;
-  /** A catalogue photo id, or an explicit image (e.g. a diary cover). Defaults to the home hero photo. */
+  /** A catalogue photo id, or an explicit image (e.g. a diary cover). Defaults to the logo card. */
   image?: PhotoId | SocialImage;
   type?: "website" | "article";
 };
@@ -53,10 +56,14 @@ export function pageMetadata({
   path,
   title,
   description,
-  image = "dubaiSkyline",
+  image,
   type = "website",
 }: PageMetadataInput): Metadata {
-  const picture = typeof image === "string" ? { src: photos[image].src, alt: dict.images[image] } : image;
+  const picture: SocialImage = !image
+    ? { ...BRAND_CARD, alt: dict.meta.siteName }
+    : typeof image === "string"
+      ? { src: photos[image].src, alt: dict.images[image] }
+      : image;
   const url = absoluteUrl(localizedHref(locale, path));
   const ogTitle = title ?? dict.meta.defaultTitle;
 
@@ -71,7 +78,7 @@ export function pageMetadata({
       locale: intlLocales[locale].replace("-", "_"),
       title: ogTitle,
       description,
-      images: [{ url: absoluteUrl(picture.src), alt: picture.alt }],
+      images: [{ url: absoluteUrl(picture.src), alt: picture.alt, width: picture.width, height: picture.height }],
     },
     twitter: { card: "summary_large_image", title: ogTitle, description, images: [absoluteUrl(picture.src)] },
   };
