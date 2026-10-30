@@ -98,7 +98,6 @@
 :root:lang(ar) {
   --font-body: var(--font-plex-arabic), var(--font-inter), Tahoma, system-ui, sans-serif;
   --font-display: var(--font-naskh), var(--font-playfair), serif;
-  --font-brand: var(--font-plex-arabic), Tahoma, system-ui, sans-serif;
 }
 
 /* Traveler Diaries carry their own `lang`, independent of the site locale:

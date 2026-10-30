@@ -26,13 +26,15 @@ export function Logo({ href, brand, className }: LogoProps) {
         loading="eager"
         className="size-10 shrink-0 md:size-11"
       />
-      <span className="-gap-2 flex flex-col font-wordmark leading-none">
+      {/* The wordmark stays in English on every locale, like the emblem. The font class sits on the
+          inner spans because a [lang="en"] element is reset to the body font by the diary rules. */}
+      <span lang="en" dir="ltr" className="-gap-2 flex flex-col leading-none">
         {/* Quicksand tops out at 700; a hairline stroke brings it to the logo's heavier lettering. */}
-        <span className="text-[1.375rem] font-medium tracking-[0.06em] text-foreground uppercase [-webkit-text-stroke:0.04em_currentColor] md:text-[1.325rem] ar:text-[1.5rem] ar:tracking-normal ar:normal-case ar:[-webkit-text-stroke:0] md:ar:text-[1.625rem]">
+        <span className="font-wordmark text-[1.375rem] font-medium tracking-[0.06em] text-foreground uppercase [-webkit-text-stroke:0.04em_currentColor] md:text-[1.325rem]">
           {brand.name}
         </span>
         {/* Tracked out so the tagline spans the same width as the name, as in the logo. */}
-        <span className="text-[0.6875rem] font-medium tracking-[0.34em] whitespace-nowrap text-muted-foreground md:text-xs md:tracking-[0.24em] ar:tracking-normal md:ar:tracking-normal">
+        <span className="font-wordmark text-[0.6875rem] font-medium tracking-[0.34em] whitespace-nowrap text-muted-foreground md:text-xs md:tracking-[0.24em]">
           {brand.tagline}
         </span>
       </span>
