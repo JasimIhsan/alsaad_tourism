@@ -111,14 +111,15 @@ export default async function ContactPage() {
 
 function Row({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
   return (
-    <div className="flex items-start gap-3">
-      <span aria-hidden="true" className="mt-1 grid size-7 shrink-0 place-items-center rounded-full bg-accent">
-        {icon}
-      </span>
-      <div>
-        <dt className="text-sm text-muted-foreground">{label}</dt>
-        <dd>{children}</dd>
-      </div>
+    // A <dl> group may only hold <dt>/<dd>, so the icon sits inside the term and the value is indented to match.
+    <div>
+      <dt className="flex items-center gap-3 text-sm text-muted-foreground">
+        <span aria-hidden="true" className="grid size-7 shrink-0 place-items-center rounded-full bg-accent">
+          {icon}
+        </span>
+        {label}
+      </dt>
+      <dd className="ps-10">{children}</dd>
     </div>
   );
 }

@@ -135,6 +135,7 @@ export function Highlights({ eyebrow, title, tabsLabel, learnMore, items }: High
                       className="inline-flex min-h-11 items-center gap-2 rounded-full bg-background px-5 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
                     >
                       {learnMore}
+                      <span className="sr-only">: {item.caption}</span>
                       <ArrowRight aria-hidden="true" className="size-4 rtl:-scale-x-100" />
                     </Link>
                   </div>

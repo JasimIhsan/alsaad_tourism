@@ -21,6 +21,7 @@ export function PhotoFill({ id, alt, sizes, preload, className }: PhotoFillProps
       fill
       sizes={sizes}
       preload={preload}
+      fetchPriority={preload ? "high" : undefined}
       className={cn("object-cover", className)}
     />
   );

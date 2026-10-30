@@ -141,22 +141,21 @@ export default async function DiaryPage({
           </p>
           <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-border bg-border md:grid-cols-4">
             {facts.map((fact) => (
-              <div key={fact.label} className="flex gap-3 bg-background p-5">
-                <fact.icon
-                  aria-hidden="true"
-                  className="mt-0.5 size-5 shrink-0 text-primary"
-                />
-                <div className="min-w-0">
-                  <dt className="eyebrow text-muted-foreground">
-                    {fact.label}
-                  </dt>
-                  <dd
-                    lang={fact.storyText ? diary.lang : undefined}
-                    className="mt-1 font-semibold"
-                  >
-                    {fact.value}
-                  </dd>
-                </div>
+              // A <dl> group may only hold <dt>/<dd>, so the icon sits inside the term.
+              <div key={fact.label} className="min-w-0 bg-background p-5">
+                <dt className="eyebrow flex items-center gap-2 text-muted-foreground">
+                  <fact.icon
+                    aria-hidden="true"
+                    className="size-4 shrink-0 text-primary"
+                  />
+                  {fact.label}
+                </dt>
+                <dd
+                  lang={fact.storyText ? diary.lang : undefined}
+                  className="mt-2 font-semibold"
+                >
+                  {fact.value}
+                </dd>
               </div>
             ))}
           </dl>

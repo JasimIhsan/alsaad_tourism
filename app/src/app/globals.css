@@ -262,8 +262,9 @@
   :lang(ar) body {
     line-height: 1.8;
   }
+  /* Cherry, not the baby-blue --ring: 5.4:1 on white and 3.1:1 on carbon (WCAG 1.4.11 needs 3:1). */
   :focus-visible {
-    outline: 2px solid var(--ring);
+    outline: 2px solid var(--primary);
     outline-offset: 3px;
   }
   a {
