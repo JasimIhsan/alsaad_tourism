@@ -2,7 +2,7 @@
 
 import { serviceSlugs, type ServiceSlug } from "@/content/data/types";
 import type { LeadTab } from "./leads/columns";
-import { contextColumns, field, recordLead, screen } from "./leads/record";
+import { contextColumns, field, isSpam, recordLead, withinRateLimit } from "./leads/record";
 
 export type InquiryErrorCode = "required" | "phone" | "email";
 export type InquiryField = "name" | "phone" | "email";
@@ -35,9 +35,7 @@ function tabFor(service: string, subject: string): LeadTab {
  * maps them to dictionary strings so no user-facing text lives here.
  */
 export async function submitInquiry(_prev: InquiryState, formData: FormData): Promise<InquiryState> {
-  const screening = await screen(formData, "inquiry");
-  if (screening === "spam") return { status: "success" };
-  if (screening === "limited") return { status: "limited" };
+  if (isSpam(formData)) return { status: "success" };
 
   const name = field(formData, "name");
   const phone = field(formData, "phone");
@@ -52,6 +50,8 @@ export async function submitInquiry(_prev: InquiryState, formData: FormData): Pr
   if (Object.keys(fieldErrors).length > 0) {
     return { status: "error", fieldErrors };
   }
+
+  if (!(await withinRateLimit("inquiry"))) return { status: "limited" };
 
   const rawService = field(formData, "service");
   const service = isServiceSlug(rawService) ? rawService : "";

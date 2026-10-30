@@ -28,13 +28,17 @@ export function contextColumns(formData: FormData): Record<string, string> {
   };
 }
 
-export type Screening = "ok" | "spam" | "limited";
+/** Real users never fill the hidden "company" field. */
+export function isSpam(formData: FormData): boolean {
+  return Boolean(field(formData, "company"));
+}
 
-/** Honeypot plus a per-IP limit of 5 submissions per 10 minutes for each form. */
-export async function screen(formData: FormData, bucket: string): Promise<Screening> {
-  // Real users never fill the hidden "company" field.
-  if (field(formData, "company")) return "spam";
-  return (await allowRequest(bucket, 5, 10 * 60 * 1000)) ? "ok" : "limited";
+/**
+ * Per-IP limit of 5 submissions per 10 minutes for each form. Call it only once the
+ * input has passed validation, so a visitor correcting typos is never locked out.
+ */
+export function withinRateLimit(bucket: string): Promise<boolean> {
+  return allowRequest(bucket, 5, 10 * 60 * 1000);
 }
 
 type LeadRecord = {
