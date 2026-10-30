@@ -1,0 +1,106 @@
+{
+  "en": {
+    "rating": 4.8,
+    "count": 1243,
+    "mapsUri": "https://www.google.com/maps",
+    "reviews": [
+      {
+        "author": "Fatima R.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "Our 60-day visas were approved in two days. The team answered every question on WhatsApp, even late at night.",
+        "lang": "en",
+        "when": "2 weeks ago"
+      },
+      {
+        "author": "Arjun Menon",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "I needed a visa change at short notice. They booked the A2A trip and I was back in Dubai the same evening. Very professional staff and clear pricing from the start.",
+        "lang": "en",
+        "when": "a month ago"
+      },
+      {
+        "author": "Sarah L.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 4,
+        "text": "The desert safari was perfectly organised, from the hotel pickup to the dinner under the stars. The kids loved it.",
+        "lang": "en",
+        "when": "a month ago"
+      },
+      {
+        "author": "Omar K.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "They checked my Schengen file line by line before submission. Clear advice, no surprises, visa granted.",
+        "lang": "en",
+        "when": "2 months ago"
+      },
+      {
+        "author": "Priya S.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "Fair flight prices, explained clearly before I paid. I have booked every trip home with them since.",
+        "lang": "en",
+        "when": "3 months ago"
+      }
+    ]
+  },
+  "ar": {
+    "rating": 4.8,
+    "count": 1243,
+    "mapsUri": "https://www.google.com/maps",
+    "reviews": [
+      {
+        "author": "فاطمة ر.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "تمت الموافقة على تأشيرتنا لمدة 60 يومًا خلال يومين. أجاب الفريق على كل أسئلتنا عبر واتساب حتى في وقت متأخر من الليل.",
+        "lang": "ar",
+        "when": "منذ أسبوعين"
+      },
+      {
+        "author": "أرجون مينون",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "احتجت إلى تغيير التأشيرة في وقت قصير. حجزوا لي رحلة A2A وعدت إلى دبي في المساء نفسه. فريق محترف وأسعار واضحة من البداية.",
+        "lang": "ar",
+        "when": "منذ شهر"
+      },
+      {
+        "author": "سارة ل.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 4,
+        "text": "تنظيم رائع لرحلة السفاري، من الاستقبال في الفندق حتى العشاء تحت النجوم. الأطفال استمتعوا كثيرًا.",
+        "lang": "ar",
+        "when": "منذ شهر"
+      },
+      {
+        "author": "عمر ك.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "راجعوا ملف الشنغن سطرًا بسطر قبل التقديم. نصيحة واضحة دون مفاجآت، وتمت الموافقة على التأشيرة.",
+        "lang": "ar",
+        "when": "منذ شهرين"
+      },
+      {
+        "author": "بريا س.",
+        "authorUri": null,
+        "photoUri": null,
+        "rating": 5,
+        "text": "أسعار تذاكر عادلة وشرح واضح قبل الدفع. حجزت معهم كل رحلاتي إلى الوطن منذ ذلك الحين.",
+        "lang": "ar",
+        "when": "منذ 3 أشهر"
+      }
+    ]
+  }
+}

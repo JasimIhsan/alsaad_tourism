@@ -1,5 +1,6 @@
 import "server-only";
 
+import dummyData from "@/content/data/dummy-google-reviews.json";
 import { cacheLife } from "next/cache";
 import type { Locale } from "./i18n/config";
 
@@ -23,6 +24,8 @@ export type GoogleReviews = {
   mapsUri: string;
   reviews: GoogleReview[];
 };
+
+const dummyReviews: Record<Locale, GoogleReviews> = dummyData;
 
 const FIELD_MASK = "rating,userRatingCount,googleMapsUri,reviews";
 const REQUEST_TIMEOUT_MS = 5000;
@@ -98,7 +101,9 @@ async function fetchReviews(locale: Locale): Promise<GoogleReviews> {
  * their section instead of breaking the page.
  */
 export async function getGoogleReviews(locale: Locale): Promise<GoogleReviews | null> {
-  if (!process.env.GOOGLE_PLACES_API_KEY || !process.env.GOOGLE_PLACE_ID) return null;
+  // TODO(client): remove this fallback once the Google credentials are set; until then
+  // the site shows dummy reviews so the layout can be reviewed.
+  if (!process.env.GOOGLE_PLACES_API_KEY || !process.env.GOOGLE_PLACE_ID) return dummyReviews[locale];
 
   try {
     return await fetchReviews(locale);
