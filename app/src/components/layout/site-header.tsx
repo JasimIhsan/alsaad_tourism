@@ -46,7 +46,7 @@ export function SiteHeader({
     <div className="pointer-events-none fixed inset-x-0 top-4 z-40 px-4">
       <header
         className={cn(
-          "pointer-events-auto mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-full border border-glass-border py-2 ps-5 pe-2 backdrop-blur-md backdrop-saturate-150 transition-[background-color,box-shadow] duration-400 ease-brand",
+          "pointer-events-auto mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-full border border-glass-border p-2 backdrop-blur-md backdrop-saturate-150 transition-[background-color,box-shadow] duration-400 ease-brand",
           scrolled ? "bg-glass-strong shadow-raised" : "bg-glass",
         )}
       >

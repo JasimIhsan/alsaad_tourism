@@ -16,11 +16,11 @@ export function Logo({ href, label, className }: LogoProps) {
       <Image
         src="/logo.png"
         alt={label}
-        width={1751}
-        height={484}
-        sizes="150px"
+        width={1674}
+        height={413}
+        sizes="180px"
         loading="eager"
-        className="h-9 w-auto md:h-10"
+        className="h-11 w-auto"
       />
     </Link>
   );
