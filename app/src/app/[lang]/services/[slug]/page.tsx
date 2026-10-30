@@ -1,5 +1,7 @@
 import { DetailBlock as Block, FactsCard, IconList } from "@/components/sections/detail-block";
 import { FaqList } from "@/components/sections/faq-list";
+import { GoogleReviewsSection } from "@/components/sections/google-reviews";
+import { getGoogleReviews } from "@/lib/google-reviews";
 import { InquiryForm } from "@/components/sections/inquiry-form";
 import { PageHero } from "@/components/sections/page-hero";
 import { getContent } from "@/content/data/get-content";
@@ -39,6 +41,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
   const t = dict.servicesPage.detail;
   const faqItems = content.faq.flatMap((g) => g.items).filter((item) => service.faqIds.includes(item.id));
   const services = serviceSlugs.map((s) => ({ value: s, label: content.services[s].title }));
+  const googleReviews = await getGoogleReviews(locale);
 
   return (
     <>
@@ -96,6 +99,10 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
           </div>
         </aside>
       </div>
+
+      {googleReviews && googleReviews.reviews.length > 0 ? (
+        <GoogleReviewsSection data={googleReviews} labels={dict.reviews} locale={locale} limit={2} />
+      ) : null}
 
       <section className="border-t border-border py-20">
         <div className="mx-auto w-full max-w-6xl px-6">

@@ -391,6 +391,20 @@
       "sheetFailed": "The Google Sheet could not be updated, so this email holds the full submission. Please add it to the sheet manually."
     }
   },
+  "reviews": {
+    "eyebrow": "Google reviews",
+    "title": "What travellers say about us.",
+    "description": "Recent reviews, shown as posted on our Google Business Profile.",
+    "listLabel": "Google reviews",
+    "ratingLabel": "Rated {rating} out of 5",
+    "summaryLabel": "Our Google rating",
+    "count": "Based on {count} Google reviews",
+    "badgeLabel": "Google rating",
+    "badgeValue": "{rating} · {count} reviews",
+    "seeAll": "See all reviews on Google",
+    "attribution": "Reviews from Google",
+    "authorLink": "{author} on Google Maps"
+  },
   "images": {
     "dubaiSkyline": "Dubai skyline with the Burj Khalifa",
     "dubaiDunes": "Sunset over the sand dunes outside Dubai",

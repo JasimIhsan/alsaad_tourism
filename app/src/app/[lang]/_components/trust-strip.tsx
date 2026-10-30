@@ -7,7 +7,6 @@ type TrustStripProps = {
   items: { title: string; description: string }[];
 };
 
-// TODO(epic-5): add the live Google rating badge here.
 export function TrustStrip({ label, items }: TrustStripProps) {
   return (
     <section aria-label={label} className="pb-8">

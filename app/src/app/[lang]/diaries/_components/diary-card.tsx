@@ -1,7 +1,7 @@
 import { ArrowRight, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { RatingStars } from "./rating-stars";
+import { RatingStars } from "@/components/sections/rating-stars";
 
 /** Serialisable card data, prepared on the server (dates and labels already localised). */
 export type DiaryCardData = {

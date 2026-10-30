@@ -1,4 +1,11 @@
 import { CtaBand } from "@/components/sections/cta-band";
+import {
+  formatRating,
+  formatReviewCount,
+  GoogleReviewsSection,
+} from "@/components/sections/google-reviews";
+import { getGoogleReviews } from "@/lib/google-reviews";
+import { format } from "@/lib/i18n/format";
 import { getContent } from "@/content/data/get-content";
 import { serviceMeta } from "@/content/data/site";
 import { packageSlugs, serviceSlugs, type ServiceSlug } from "@/content/data/types";
@@ -16,6 +23,16 @@ export default async function HomePage() {
   const content = getContent(locale);
   const href = (path: string) => localizedHref(locale, path);
   const { home } = dict;
+  const googleReviews = await getGoogleReviews(locale);
+  const ratingBadge = googleReviews
+    ? {
+        label: dict.reviews.badgeLabel,
+        value: format(dict.reviews.badgeValue, {
+          rating: formatRating(locale, googleReviews.rating),
+          count: formatReviewCount(locale, googleReviews.count),
+        }),
+      }
+    : undefined;
 
   const services = serviceSlugs.map((slug) => ({ value: slug, label: content.services[slug].title }));
 
@@ -51,6 +68,7 @@ export default async function HomePage() {
         photoAlts={dict.images}
         services={services}
         servicesHref={href("/services")}
+        ratingBadge={ratingBadge}
       />
       <TrustStrip label={home.trust.label} items={home.trust.items} />
       <FeaturedServices
@@ -78,16 +96,21 @@ export default async function HomePage() {
         learnMore={dict.common.learnMore}
         items={highlights}
       />
-      <Testimonials
-        eyebrow={home.testimonials.eyebrow}
-        title={home.testimonials.title}
-        description={home.testimonials.description}
-        listLabel={home.testimonials.listLabel}
-        pauseLabel={home.testimonials.pause}
-        playLabel={home.testimonials.play}
-        ratingLabel={home.testimonials.rating}
-        items={home.testimonials.items}
-      />
+      {googleReviews && googleReviews.reviews.length > 0 ? (
+        <GoogleReviewsSection data={googleReviews} labels={dict.reviews} locale={locale} />
+      ) : (
+        // Placeholder stories until the Google credentials are set (S5.1).
+        <Testimonials
+          eyebrow={home.testimonials.eyebrow}
+          title={home.testimonials.title}
+          description={home.testimonials.description}
+          listLabel={home.testimonials.listLabel}
+          pauseLabel={home.testimonials.pause}
+          playLabel={home.testimonials.play}
+          ratingLabel={home.testimonials.rating}
+          items={home.testimonials.items}
+        />
+      )}
       <CtaBand title={home.cta.title} description={home.cta.description} buttonLabel={home.cta.button} />
     </>
   );

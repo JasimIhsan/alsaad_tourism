@@ -23,7 +23,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Byline, DiaryCard } from "../_components/diary-card";
 import { DiaryProse } from "../_components/diary-prose";
-import { RatingStars } from "../_components/rating-stars";
+import { RatingStars } from "@/components/sections/rating-stars";
 import {
   formatDays,
   formatDiaryDate,

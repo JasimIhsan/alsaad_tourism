@@ -391,6 +391,20 @@
       "sheetFailed": "تعذّر تحديث جدول Google، لذا تحتوي هذه الرسالة على الطلب كاملًا. يرجى إضافته إلى الجدول يدويًا."
     }
   },
+  "reviews": {
+    "eyebrow": "تقييمات Google",
+    "title": "ماذا يقول المسافرون عنا.",
+    "description": "أحدث التقييمات كما نُشرت على ملفنا التجاري في Google.",
+    "listLabel": "تقييمات Google",
+    "ratingLabel": "التقييم {rating} من 5",
+    "summaryLabel": "تقييمنا على Google",
+    "count": "بناءً على {count} تقييم على Google",
+    "badgeLabel": "تقييم Google",
+    "badgeValue": "{rating} · {count} تقييم",
+    "seeAll": "عرض كل التقييمات على Google",
+    "attribution": "تقييمات من Google",
+    "authorLink": "{author} على خرائط Google"
+  },
   "images": {
     "dubaiSkyline": "أفق دبي مع برج خليفة",
     "dubaiDunes": "غروب الشمس فوق الكثبان الرملية خارج دبي",

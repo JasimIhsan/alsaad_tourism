@@ -12,9 +12,11 @@ type HeroProps = {
   photoAlts: Dictionary["images"];
   services: Option[];
   servicesHref: string;
+  /** Live Google rating; replaces the second badge when available. */
+  ratingBadge?: { label: string; value: string };
 };
 
-export function Hero({ dict, formDict, photoAlts, services, servicesHref }: HeroProps) {
+export function Hero({ dict, formDict, photoAlts, services, servicesHref, ratingBadge }: HeroProps) {
   const { hero, selector } = dict;
   return (
     <section className="pt-32 pb-16 md:pt-40 md:pb-20">
@@ -39,7 +41,7 @@ export function Hero({ dict, formDict, photoAlts, services, servicesHref }: Hero
             </div>
           </div>
 
-          <Collage dict={hero} photoAlts={photoAlts} />
+          <Collage dict={hero} photoAlts={photoAlts} ratingBadge={ratingBadge} />
         </div>
 
         <section aria-label={selector.label} className="mt-16 md:mt-20">
@@ -58,9 +60,11 @@ export function Hero({ dict, formDict, photoAlts, services, servicesHref }: Hero
 function Collage({
   dict,
   photoAlts,
+  ratingBadge,
 }: {
   dict: Dictionary["home"]["hero"];
   photoAlts: Dictionary["images"];
+  ratingBadge?: { label: string; value: string };
 }) {
   return (
     <div aria-label={dict.collageLabel} role="group" className="relative h-[26rem] sm:h-[32rem] lg:h-[35rem]">
@@ -84,8 +88,8 @@ function Collage({
       <Badge className="start-[2%] top-[26%]" label={dict.badgeOneLabel} value={dict.badgeOneValue} />
       <Badge
         className="end-[4%] bottom-[16%] [animation-delay:-3s]"
-        label={dict.badgeTwoLabel}
-        value={dict.badgeTwoValue}
+        label={ratingBadge?.label ?? dict.badgeTwoLabel}
+        value={ratingBadge?.value ?? dict.badgeTwoValue}
       />
     </div>
   );
