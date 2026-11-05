@@ -46,7 +46,7 @@ export default async function ContactPage() {
               const meta = branchMeta[id];
               return (
                 <li key={id} className="grid content-start gap-6 rounded-card border border-border p-6 md:p-8">
-                  <h3 className="font-display text-2xl">{branch.name}</h3>
+                  <h3 className="font-display text-2xl">{branch.legalName}</h3>
                   <dl className="grid gap-4">
                     <Row icon={<MapPin className="size-4" />} label={page.address}>
                       {branch.address}
@@ -54,11 +54,17 @@ export default async function ContactPage() {
                     <Row icon={<Clock className="size-4" />} label={page.hours}>
                       {branch.hours}
                     </Row>
-                    {meta.phone ? (
+                    {meta.phones.length > 0 ? (
                       <Row icon={<Phone className="size-4" />} label={page.phone}>
-                        <a href={`tel:${meta.phone.tel}`} className="hover:text-primary">
-                          <bdi dir="ltr">{meta.phone.display}</bdi>
-                        </a>
+                        <ul className="grid gap-1">
+                          {meta.phones.map((phone) => (
+                            <li key={phone.tel}>
+                              <a href={`tel:${phone.tel}`} className="hover:text-primary">
+                                <bdi dir="ltr">{phone.display}</bdi>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </Row>
                     ) : null}
                     {meta.email ? (
@@ -78,7 +84,7 @@ export default async function ContactPage() {
                         showLabel={page.showMap}
                       />
                       <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.mapQuery)}`}
+                        href={meta.mapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex min-h-11 items-center text-sm font-semibold text-primary hover:underline"

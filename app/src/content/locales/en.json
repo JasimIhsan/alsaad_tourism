@@ -411,6 +411,12 @@
     "attribution": "Reviews from Google",
     "authorLink": "{author} on Google Maps",
     "allReviews": "All reviews",
+    "branches": {
+      "sharjah": "Sharjah branch",
+      "dubai": "Dubai branch",
+      "sajaa": "Al Sajaa branch",
+      "nadapuram": "Nadapuram, Kerala branch"
+    },
     "page": {
       "eyebrow": "Google reviews",
       "title": "Every review, as posted on Google.",

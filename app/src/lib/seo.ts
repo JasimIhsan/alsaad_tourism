@@ -108,7 +108,7 @@ export function travelAgencyJsonLd(locale: Locale, dict: Dictionary, content: Si
         address: {
           "@type": "PostalAddress",
           streetAddress: content.branches[id].address,
-          addressCountry: "AE",
+          addressCountry: branchMeta[id].country,
         },
         telephone: branchMeta[id].phone?.tel,
       })),

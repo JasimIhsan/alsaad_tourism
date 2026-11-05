@@ -151,6 +151,9 @@ function ReviewCard({ review, labels }: { review: GoogleReview; labels: Labels }
             </span>
           )}
           {review.when ? <span className="block text-sm text-muted-foreground">{review.when}</span> : null}
+          {review.branch ? (
+            <span className="block truncate text-sm text-muted-foreground">{labels.branches[review.branch]}</span>
+          ) : null}
         </span>
       </figcaption>
     </figure>

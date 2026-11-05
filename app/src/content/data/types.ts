@@ -56,6 +56,8 @@ export type FaqGroup = { id: string; title: string; items: FaqItem[] };
 
 export type BranchContent = {
   name: string;
+  /** Full registered branch name, shown on the contact page. */
+  legalName: string;
   address: string;
   hours: string;
   /** Query passed to the Google Maps embed; empty hides the map. */

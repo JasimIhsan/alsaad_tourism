@@ -340,27 +340,31 @@ export const en: SiteContent = {
   branches: {
     sharjah: {
       name: "Sharjah",
-      address: "Al Zahra Street, Sharjah, UAE",
+      legalName: "Alsaadah Tourism LLC (H.O), Sharjah Branch",
+      address: "Al Zahra Street, Opp. Rolla Square Park, P.O. Box 60348, Sharjah, UAE",
       hours: "Saturday to Thursday, 9:00 to 21:00",
       mapQuery: "Al Zahra Street, Sharjah, United Arab Emirates",
     },
     dubai: {
       name: "Dubai",
-      address: "Port Saeed, Deira, Dubai, UAE",
+      legalName: "Alsaadah Tourism LLC, Dubai Branch",
+      address: "Office No. G-102, Port Saeed, Deira, Dubai, UAE",
       hours: "Saturday to Thursday, 9:00 to 21:00",
       mapQuery: "Port Saeed, Deira, Dubai, United Arab Emirates",
     },
     sajaa: {
       name: "Sajaa",
-      address: "Al Dhaid Street, Sajaa, Sharjah, UAE",
+      legalName: "Taj Al Saadah Typing Services, Sajaa Branch",
+      address: "Shop No. 22, Al Sajaa Industrial Area, Behind Al Dhaid Street, Al Sajaa, Sharjah, UAE",
       hours: "Saturday to Thursday, 9:00 to 21:00",
       mapQuery: "Al Dhaid Road, Sajaa, Sharjah, United Arab Emirates",
     },
     india: {
       name: "India",
-      address: "Address to be confirmed",
+      legalName: "Alsaadah Tourism, Nadapuram Branch",
+      address: "Al Maskn Arcade, Opp. Juma Masjid, Nadapuram, Keralam 673504, India",
       hours: "Hours to be confirmed",
-      mapQuery: "",
+      mapQuery: "Al Maskn Arcade, Nadapuram, Kerala 673504, India",
     },
   },
 

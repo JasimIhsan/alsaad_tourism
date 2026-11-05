@@ -158,12 +158,47 @@ export const packageMeta: Record<PackageSlug, { visual: Visual; photo: PhotoId }
   "family-group": { visual: "sky", photo: "dubaiMarina" },
 };
 
+type Phone = { display: string; tel: string };
+
 export const branchMeta: Record<
   BranchId,
-  { phone?: { display: string; tel: string }; email?: string }
+  {
+    /** Primary number, used in the footer and structured data. */
+    phone?: Phone;
+    /** Every number shown on the contact page (mobile first, then landline). */
+    phones: Phone[];
+    email?: string;
+    /** ISO country code for structured data. */
+    country: string;
+    /** Short Google Maps link for directions. */
+    mapsUrl: string;
+  }
 > = {
-  sharjah: { phone: contact.phones.office },
-  dubai: { phone: contact.phones.mobile },
-  sajaa: { phone: contact.phones.mobile },
-  india: {},
+  sharjah: {
+    phone: contact.phones.mobile,
+    phones: [contact.phones.mobile, contact.phones.office],
+    country: "AE",
+    mapsUrl: "https://maps.app.goo.gl/3DXNvJA5NzZ9yGJU9",
+  },
+  dubai: {
+    phone: { display: "+971 54 258 2162", tel: "+971542582162" },
+    phones: [
+      { display: "+971 54 258 2162", tel: "+971542582162" },
+      { display: "04 547 9466", tel: "+97145479466" },
+    ],
+    country: "AE",
+    mapsUrl: "https://maps.app.goo.gl/Sya3ZfqPj7y7n4xo9",
+  },
+  sajaa: {
+    phone: { display: "+971 50 602 9447", tel: "+971506029447" },
+    phones: [{ display: "+971 50 602 9447", tel: "+971506029447" }],
+    country: "AE",
+    mapsUrl: "https://maps.app.goo.gl/uQjRhkSfq2m73Udb9",
+  },
+  india: {
+    phone: { display: "+91 90487 07909", tel: "+919048707909" },
+    phones: [{ display: "+91 90487 07909", tel: "+919048707909" }],
+    country: "IN",
+    mapsUrl: "https://maps.app.goo.gl/szM1JHzPd69oAaV76",
+  },
 };

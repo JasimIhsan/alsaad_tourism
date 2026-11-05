@@ -336,27 +336,31 @@ export const ar: SiteContent = {
   branches: {
     sharjah: {
       name: "الشارقة",
-      address: "شارع الزهراء، الشارقة، الإمارات العربية المتحدة",
+      legalName: "السعادة للسياحة ذ.م.م (المقر الرئيسي)، فرع الشارقة",
+      address: "شارع الزهراء، مقابل حديقة ساحة الرولة، ص.ب 60348، الشارقة، الإمارات العربية المتحدة",
       hours: "من السبت إلى الخميس، 9:00 إلى 21:00",
       mapQuery: "Al Zahra Street, Sharjah, United Arab Emirates",
     },
     dubai: {
       name: "دبي",
-      address: "بور سعيد، ديرة، دبي، الإمارات العربية المتحدة",
+      legalName: "السعادة للسياحة ذ.م.م، فرع دبي",
+      address: "مكتب رقم G-102، بور سعيد، ديرة، دبي، الإمارات العربية المتحدة",
       hours: "من السبت إلى الخميس، 9:00 إلى 21:00",
       mapQuery: "Port Saeed, Deira, Dubai, United Arab Emirates",
     },
     sajaa: {
       name: "الصجعة",
-      address: "شارع الذيد، الصجعة، الشارقة، الإمارات العربية المتحدة",
+      legalName: "تاج السعادة لخدمات الطباعة، فرع الصجعة",
+      address: "محل رقم 22، المنطقة الصناعية بالصجعة، خلف شارع الذيد، الصجعة، الشارقة، الإمارات العربية المتحدة",
       hours: "من السبت إلى الخميس، 9:00 إلى 21:00",
       mapQuery: "Al Dhaid Road, Sajaa, Sharjah, United Arab Emirates",
     },
     india: {
       name: "الهند",
-      address: "سيتم تأكيد العنوان",
+      legalName: "السعادة للسياحة، فرع نادابورام",
+      address: "مجمع المسكن، مقابل مسجد الجمعة، نادابورام، كيرالا 673504، الهند",
       hours: "سيتم تأكيد ساعات العمل",
-      mapQuery: "",
+      mapQuery: "Al Maskn Arcade, Nadapuram, Kerala 673504, India",
     },
   },
 

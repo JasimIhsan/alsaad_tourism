@@ -9,17 +9,31 @@ import { InquiryDrawerProvider } from "@/components/sections/inquiry-drawer";
 import { getContent } from "@/content/data/get-content";
 import { contact } from "@/content/data/site";
 import { packageSlugs, serviceSlugs } from "@/content/data/types";
-import { getDirection, localizedHref, locales } from "@/lib/i18n/config";
+import { getDirection, locales, localizedHref } from "@/lib/i18n/config";
 import { LocaleProvider } from "@/lib/i18n/locale-provider";
 import { getI18n } from "@/lib/i18n/server";
 import { getSiteUrl, pageMetadata } from "@/lib/seo";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { IBM_Plex_Sans_Arabic, Inter, Noto_Naskh_Arabic, Playfair_Display, Quicksand } from "next/font/google";
+import {
+  IBM_Plex_Sans_Arabic,
+  Inter,
+  Noto_Naskh_Arabic,
+  Playfair_Display,
+  Quicksand,
+} from "next/font/google";
 
 // Rounded geometric sans that matches the logo's wordmark; used only for the name and tagline beside the emblem.
-const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-quicksand", display: "swap" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  variable: "--font-quicksand",
+  display: "swap",
+});
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["500", "700"],
@@ -27,7 +41,11 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   display: "swap",
 });
-const naskh = Noto_Naskh_Arabic({ subsets: ["arabic"], variable: "--font-naskh", display: "swap" });
+const naskh = Noto_Naskh_Arabic({
+  subsets: ["arabic"],
+  variable: "--font-naskh",
+  display: "swap",
+});
 const plexArabic = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
   weight: ["400", "500", "600", "700"],
@@ -43,10 +61,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const { locale, dict } = await getI18n();
   // Defaults for pages that set no metadata of their own (e.g. the 404). Canonical and
   // hreflang are per page, so they are not set here.
-  const { openGraph, twitter } = pageMetadata({ locale, dict, path: "/", description: dict.meta.description });
+  const { openGraph, twitter } = pageMetadata({
+    locale,
+    dict,
+    path: "/",
+    description: dict.meta.description,
+  });
   return {
     metadataBase: new URL(getSiteUrl()),
-    title: { default: dict.meta.defaultTitle, template: dict.meta.titleTemplate },
+    title: {
+      default: dict.meta.defaultTitle,
+      template: dict.meta.titleTemplate,
+    },
     description: dict.meta.description,
     applicationName: dict.meta.siteName,
     openGraph: { ...openGraph, url: undefined },
@@ -60,7 +86,10 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const href = (path: string) => localizedHref(locale, path);
   const otherLocale = locale === "ar" ? "en" : "ar";
 
-  const services = serviceSlugs.map((slug) => ({ value: slug, label: content.services[slug].title }));
+  const services = serviceSlugs.map((slug) => ({
+    value: slug,
+    label: content.services[slug].title,
+  }));
 
   const navItems: NavItem[] = [
     {
@@ -92,10 +121,12 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   // WhatsApp message matched to the page (BRD 2.5).
   const fabMessages: Record<string, string> = {};
   for (const slug of serviceSlugs) {
-    fabMessages[href(`/services/${slug}`)] = content.services[slug].whatsappMessage;
+    fabMessages[href(`/services/${slug}`)] =
+      content.services[slug].whatsappMessage;
   }
   for (const slug of packageSlugs) {
-    fabMessages[href(`/packages/${slug}`)] = content.packages[slug].whatsappMessage;
+    fabMessages[href(`/packages/${slug}`)] =
+      content.packages[slug].whatsappMessage;
   }
 
   return (
@@ -107,7 +138,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
       <body>
         <a
           href="#main"
-          className="sr-only z-50 rounded-full bg-primary px-5 py-3 text-primary-foreground focus:not-sr-only focus:fixed focus:top-4 focus:start-4"
+          className="sr-only z-50 rounded-full bg-primary px-5 py-3 text-primary-foreground focus:not-sr-only focus:fixed focus:inset-s-4 focus:top-4"
         >
           {dict.common.skipToContent}
         </a>
@@ -115,16 +146,27 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
         <AnalyticsEvents />
         <LocaleProvider locale={locale}>
           <InquiryDrawerProvider
-            dict={{ drawer: dict.drawer, form: dict.form, close: dict.common.close }}
+            dict={{
+              drawer: dict.drawer,
+              form: dict.form,
+              close: dict.common.close,
+            }}
             services={services}
           >
             <SiteHeader
               homeHref={href("/")}
-              brand={{ name: dict.meta.brandName, tagline: dict.meta.brandTagline }}
+              brand={{
+                name: dict.meta.brandName,
+                tagline: dict.meta.brandTagline,
+              }}
               items={navItems}
               navLabel={dict.nav.primaryLabel}
               ctaLabel={dict.nav.planJourney}
-              menuLabels={{ open: dict.common.openMenu, close: dict.common.close, title: dict.common.menu }}
+              menuLabels={{
+                open: dict.common.openMenu,
+                close: dict.common.close,
+                title: dict.common.menu,
+              }}
               language={{
                 target: otherLocale,
                 label: dict.language.switchLabel,
