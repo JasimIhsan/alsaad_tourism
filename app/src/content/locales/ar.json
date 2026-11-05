@@ -411,6 +411,8 @@
     "attribution": "تقييمات من Google",
     "authorLink": "{author} على خرائط Google",
     "allReviews": "كل التقييمات",
+    "filterLabel": "تصفية التقييمات حسب الفرع",
+    "filterAll": "كل الفروع",
     "branches": {
       "sharjah": "فرع الشارقة",
       "dubai": "فرع دبي",

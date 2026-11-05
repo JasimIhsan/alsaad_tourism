@@ -411,6 +411,8 @@
     "attribution": "Reviews from Google",
     "authorLink": "{author} on Google Maps",
     "allReviews": "All reviews",
+    "filterLabel": "Filter reviews by branch",
+    "filterAll": "All branches",
     "branches": {
       "sharjah": "Sharjah branch",
       "dubai": "Dubai branch",

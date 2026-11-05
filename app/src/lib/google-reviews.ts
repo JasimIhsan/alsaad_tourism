@@ -7,12 +7,17 @@ import type { Locale } from "./i18n/config";
 /** One Google review, tagged with the branch it was left for (null for the dummy data). */
 export type GoogleReview = PlaceReview & { branch?: BranchKey | null };
 
+/** A branch's own rating, review count and listing, for the reviews page filter. */
+export type BranchSummary = { branch: BranchKey; rating: number; count: number; mapsUri: string };
+
 export type GoogleReviews = {
   rating: number;
   count: number;
   /** The business listing, where visitors can read every review and write their own. */
   mapsUri: string;
   reviews: GoogleReview[];
+  /** Per-branch figures; absent for the dummy data. */
+  branches?: BranchSummary[];
 };
 
 /** The grid shows the summary card plus this many reviews (a 3x2 grid). */
@@ -26,7 +31,10 @@ const dummyReviews: Record<Locale, GoogleReviews> = dummyData;
  * interleaved so every branch is represented. Returns null when Google is configured but
  * unavailable, so callers hide their section instead of breaking the page.
  */
-export async function getGoogleReviews(locale: Locale): Promise<GoogleReviews | null> {
+export async function getGoogleReviews(
+  locale: Locale,
+  { all = false }: { all?: boolean } = {},
+): Promise<GoogleReviews | null> {
   const configured = BRANCHES.some((entry) => process.env[entry.envVar]);
   // TODO(client): remove this fallback once the Google credentials are set; until then
   // the site shows dummy reviews so the layout can be reviewed.
@@ -41,14 +49,22 @@ export async function getGoogleReviews(locale: Locale): Promise<GoogleReviews | 
       ? branches.reduce((sum, branch) => sum + branch.rating * branch.count, 0) / count
       : branches[0].rating;
 
+  // `all` (the reviews page) keeps every review Google returned: up to 5 per branch.
+  const limit = all ? Infinity : MAX_REVIEWS;
   const reviews: GoogleReview[] = [];
-  for (let index = 0; reviews.length < MAX_REVIEWS; index++) {
+  for (let index = 0; reviews.length < limit; index++) {
     const round = branches.filter((branch) => branch.reviews[index]);
     if (round.length === 0) break;
     for (const branch of round) {
-      if (reviews.length < MAX_REVIEWS) reviews.push({ ...branch.reviews[index], branch: branch.branch });
+      if (reviews.length < limit) reviews.push({ ...branch.reviews[index], branch: branch.branch });
     }
   }
 
-  return { rating, count, mapsUri: branches[0].mapsUri, reviews };
+  return {
+    rating,
+    count,
+    mapsUri: branches[0].mapsUri,
+    reviews,
+    branches: branches.map(({ branch, rating, count, mapsUri }) => ({ branch, rating, count, mapsUri })),
+  };
 }

@@ -1,6 +1,6 @@
 import { CtaBand } from "@/components/sections/cta-band";
-import { GoogleReviewsGrid } from "@/components/sections/google-reviews";
 import { PageHero } from "@/components/sections/page-hero";
+import { ReviewsFilter } from "@/components/sections/reviews-filter";
 import { getGoogleReviews } from "@/lib/google-reviews";
 import { getI18n } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo";
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ReviewsPage() {
   const { locale, dict } = await getI18n();
-  const data = await getGoogleReviews(locale);
+  const data = await getGoogleReviews(locale, { all: true });
   // No reviews to show (credentials missing or the API failed): the page does not exist.
   if (!data || data.reviews.length === 0) notFound();
 
@@ -32,7 +32,7 @@ export default async function ReviewsPage() {
       <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} />
       <section className="pb-20">
         <div className="mx-auto w-full max-w-6xl px-6">
-          <GoogleReviewsGrid data={data} labels={dict.reviews} locale={locale} />
+          <ReviewsFilter data={data} labels={dict.reviews} locale={locale} />
         </div>
       </section>
       <CtaBand title={cta.title} description={cta.description} buttonLabel={cta.button} />
