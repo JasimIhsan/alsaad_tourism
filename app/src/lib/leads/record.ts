@@ -17,17 +17,6 @@ export function field(formData: FormData, name: string): string {
   return typeof value === "string" ? value.trim().slice(0, MAX_FIELD_LENGTH) : "";
 }
 
-/** Columns every tab shares: where and how the visitor arrived. */
-export function contextColumns(formData: FormData): Record<string, string> {
-  return {
-    Locale: field(formData, "locale"),
-    Page: field(formData, "source"),
-    "UTM source": field(formData, "utm_source"),
-    "UTM medium": field(formData, "utm_medium"),
-    "UTM campaign": field(formData, "utm_campaign"),
-  };
-}
-
 /** Real users never fill the hidden "company" field. */
 export function isSpam(formData: FormData): boolean {
   return Boolean(field(formData, "company"));
@@ -75,13 +64,16 @@ export async function recordLead(lead: LeadRecord): Promise<boolean> {
     return false;
   }
 
-  const subject = format((await getDictionary("en")).leads.email.subject, { form: lead.form, name: lead.name });
-
   try {
     await appendRow(config, lead.tab, row);
   } catch (error) {
+    if (!config.email) {
+      console.error("[leads] Sheet append failed and email alerts are not configured; submission lost", error);
+      return false;
+    }
     console.error("[leads] Sheet append failed, falling back to email", error);
     try {
+      const subject = format((await getDictionary("en")).leads.email.subject, { form: lead.form, name: lead.name });
       await sendAlert(config, subject, await alertText(config, lead, row, true));
       return true;
     } catch (emailError) {
@@ -91,12 +83,15 @@ export async function recordLead(lead: LeadRecord): Promise<boolean> {
   }
 
   // The row is safe; the alert doesn't need to hold up the visitor's response.
-  after(async () => {
-    try {
-      await sendAlert(config, subject, await alertText(config, lead, row, false));
-    } catch (error) {
-      console.error("[leads] Alert email failed (row was saved)", error);
-    }
-  });
+  if (config.email) {
+    after(async () => {
+      try {
+        const subject = format((await getDictionary("en")).leads.email.subject, { form: lead.form, name: lead.name });
+        await sendAlert(config, subject, await alertText(config, lead, row, false));
+      } catch (error) {
+        console.error("[leads] Alert email failed (row was saved)", error);
+      }
+    });
+  }
   return true;
 }

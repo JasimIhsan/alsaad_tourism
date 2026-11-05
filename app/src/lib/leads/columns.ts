@@ -8,12 +8,6 @@ export type LeadTab = (typeof leadTabs)[number];
 /** Every tab uses the same columns, in this order. */
 export const leadColumns = [
   "Timestamp",
-  "Form",
-  "Locale",
-  "Page",
-  "UTM source",
-  "UTM medium",
-  "UTM campaign",
   "Name",
   "Phone",
   "Email",

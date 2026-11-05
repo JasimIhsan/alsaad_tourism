@@ -2,7 +2,7 @@
 
 import { serviceSlugs, type ServiceSlug } from "@/content/data/types";
 import type { LeadTab } from "./leads/columns";
-import { contextColumns, field, isSpam, recordLead, withinRateLimit } from "./leads/record";
+import { field, isSpam, recordLead, withinRateLimit } from "./leads/record";
 
 export type InquiryErrorCode = "required" | "phone" | "email";
 export type InquiryField = "name" | "phone" | "email";
@@ -63,8 +63,6 @@ export async function submitInquiry(_prev: InquiryState, formData: FormData): Pr
     form: "Inquiry",
     name,
     columns: {
-      ...contextColumns(formData),
-      Form: "Inquiry",
       Name: name,
       Phone: phone,
       Email: email,
