@@ -96,16 +96,16 @@ async function fetchPlace(branch: BranchKey, locale: Locale): Promise<BranchRevi
     googleMapsUri?: unknown;
     reviews?: RawReview[];
   };
-  const mapsUri = str(place.googleMapsUri);
-  if (typeof place.rating !== "number" || typeof place.userRatingCount !== "number" || !mapsUri) {
-    throw new Error(`Places API response for "${branch}" is missing rating, review count or listing link`);
-  }
+  // A listing with no reviews yet comes back without rating/count, which is valid: it
+  // counts as 0 reviews. A missing link falls back to the Place ID's Maps URL.
+  const mapsUri =
+    str(place.googleMapsUri) ?? `https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(placeId)}`;
 
   return {
     branch,
     name: str(place.displayName?.text),
-    rating: place.rating,
-    count: place.userRatingCount,
+    rating: typeof place.rating === "number" ? place.rating : 0,
+    count: typeof place.userRatingCount === "number" ? place.userRatingCount : 0,
     mapsUri,
     reviews: (place.reviews ?? []).map(parseReview).filter((review) => review !== null),
   };
